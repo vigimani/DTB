@@ -1,96 +1,27 @@
-export const barChartData = [
-    {
-      name: "Sales",
-      data: [330, 250, 110, 300, 490, 350, 270, 130, 425],
-    },
-  ];
+
+  //start feb22
+  let ethperf = [12.31, -16.91, -28.80,-44.95,57.15,-7.43,-14.56,18.37,-17.70,-7.63,+32.58]
+  let dataeth = []
+  dataeth[0] = 100 
+  ethperf.forEach((e, index) => {
+    dataeth[index+1] = parseInt((dataeth[index]*(1+e/100)).toFixed(0))
+  })
+
   
-  export const barChartOptions = {
-    chart: {
-      toolbar: {
-        show: false,
-      },
-    },
-    tooltip: {
-      style: {
-        backgroundColor: "red",
-        fontSize: "12px",
-        fontFamily: undefined,
-      },
-      onDatasetHover: {
-        style: {
-          backgroundColor: "red",
-          fontSize: "12px",
-          fontFamily: undefined,
-        },
-      },
-      theme: "dark",
-    },
-    xaxis: {
-      categories: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      show: false,
-      labels: {
-        show: false,
-        style: {
-          colors: "#fff",
-          fontSize: "12px",
-        },
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-    },
-    yaxis: {
-      show: true,
-      color: "#fff",
-      labels: {
-        show: true,
-        style: {
-          colors: "#fff",
-          fontSize: "14px",
-        },
-      },
-    },
-    grid: {
-      show: false,
-    },
-    fill: {
-      colors: "#fff",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 8,
-        columnWidth: "12px",
-      },
-    },
-    responsive: [
-      {
-        breakpoint: 768,
-        options: {
-          plotOptions: {
-            bar: {
-              borderRadius: 0,
-            },
-          },
-        },
-      },
-    ],
-  };
-  
+  let botperf = [59.3, -17.8, -6.8,-20.1,10.4,5.9,24.4,-7.1,7.5,64.2,27.0]
+  let databot = []
+  databot[0]=100
+  botperf.forEach((e, index) => {
+    databot[index+1] = parseInt((databot[index]*(1+e/100)).toFixed(0))
+  })
   export const lineChartData = [
     {
-      name: "Mobile apps",
-      data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+      name: "PLP Decentralized Trading Bot",
+      data: databot,
     },
     {
-      name: "Websites",
-      data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+      name: "Ethereum",
+      data: dataeth,
     },
   ];
   
@@ -110,9 +41,8 @@ export const barChartData = [
       curve: "smooth",
     },
     xaxis: {
-      type: "datetime",
+      type: "date",
       categories: [
-        "Jan",
         "Feb",
         "Mar",
         "Apr",
@@ -124,6 +54,7 @@ export const barChartData = [
         "Oct",
         "Nov",
         "Dec",
+        "Jan",
       ],
       labels: {
         style: {
@@ -158,8 +89,8 @@ export const barChartData = [
         opacityTo: 0,
         stops: [],
       },
-      colors: ["#4FD1C5", "#2D3748"],
+      colors: ["#9face6", "#ecf0f1"],
     },
-    colors: ["#4FD1C5", "#2D3748"],
+    colors: ["#9face6", "#3c3c3d"],
   };
   

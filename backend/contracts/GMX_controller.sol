@@ -60,7 +60,7 @@ contract GMX_controller is Ownable {
                 positionSize,
                 isLong,
                 acceptablePrice,
-                10000000000000000,
+                100000000000000,
                 0x6d79726566657272616c4d6176696e6967690000000000000000000000000000,
                 0x0000000000000000000000000000000000000000
             );            
@@ -68,7 +68,7 @@ contract GMX_controller is Ownable {
             address[] memory path = new address[](1);
             path[0] = USDC;
             acceptablePrice = IGMXVault(gmxVault).getMinPrice(WETH)*9970/10000;// GMX uses 30 bps tolerance
-            IGMXPositionRouter(gmxPositionRouter).createIncreasePosition{value: msg.value}(path, WETH, tokenAmount, 0, positionSize, isLong, acceptablePrice, 10000000000000000, 0x0, address(0));
+            IGMXPositionRouter(gmxPositionRouter).createIncreasePosition{value: msg.value}(path, WETH, tokenAmount, 0, positionSize, isLong, acceptablePrice, 100000000000000, 0x0, address(0));
         }
     }
     function decreasePosition(address _to, uint256 tokenAmount, bool isLong) external payable onlyMyVault {
@@ -79,13 +79,12 @@ contract GMX_controller is Ownable {
             path[0] = WETH;
             path[1] = USDC;
             acceptablePrice = IGMXVault(gmxVault).getMinPrice(WETH)*9970/10000;// 0.3% slippage
-            IGMXPositionRouter(gmxPositionRouter).createDecreasePosition{value: msg.value}(path, WETH, tokenAmount* 1e24, collateralDelta, isLong, _to, acceptablePrice, 0, 10000000000000000, false, address(0));
+            IGMXPositionRouter(gmxPositionRouter).createDecreasePosition{value: msg.value}(path, WETH, tokenAmount* 1e24, collateralDelta, isLong, _to, acceptablePrice, 0, 100000000000000, false, address(0));
         } else {
             address[] memory path = new address[](1);
             path[0] = USDC;
             acceptablePrice = IGMXVault(gmxVault).getMaxPrice(WETH)*10030/10000;// 0.3% slippage
-            IGMXPositionRouter(gmxPositionRouter).createDecreasePosition{value: msg.value}(path, WETH, tokenAmount* 1e24, collateralDelta, isLong,  _to, acceptablePrice, 0, 10000000000000000, false, address(0));
-
+            IGMXPositionRouter(gmxPositionRouter).createDecreasePosition{value: msg.value}(path, WETH, tokenAmount* 1e24, collateralDelta, isLong,  _to, acceptablePrice, 0, 100000000000000, false, address(0));
         }
     }
     function liquidatePosition(bool isLong) external payable onlyMyVault {
@@ -95,15 +94,14 @@ contract GMX_controller is Ownable {
             path[0] = WETH;
             path[1] = USDC;
             (uint256 sizeDelta,,,,,,,) = IGMXVault(gmxVault).getPosition(address(this), WETH, WETH, isLong);
-
             acceptablePrice = IGMXVault(gmxVault).getMinPrice(WETH)*9970/10000;// 0.3% slippage
-            IGMXPositionRouter(gmxPositionRouter).createDecreasePosition{value: msg.value}(path, WETH, 0, sizeDelta, isLong, msg.sender, acceptablePrice, 0, 10000000000000000, false, address(0));
+            IGMXPositionRouter(gmxPositionRouter).createDecreasePosition{value: msg.value}(path, WETH, 0, sizeDelta, isLong, msg.sender, acceptablePrice, 0, 100000000000000, false, address(0));
         } else {
             address[] memory path = new address[](1);
             path[0] = USDC;
             (uint256 sizeDelta,,,,,,,) = IGMXVault(gmxVault).getPosition(address(this), USDC, WETH, isLong);
             acceptablePrice = IGMXVault(gmxVault).getMaxPrice(WETH)*10030/10000;// 0.3% slippage
-            IGMXPositionRouter(gmxPositionRouter).createDecreasePosition{value: msg.value}(path, WETH, 0, sizeDelta, isLong, msg.sender, acceptablePrice, 0, 10000000000000000, false, address(0));
+            IGMXPositionRouter(gmxPositionRouter).createDecreasePosition{value: msg.value}(path, WETH, 0, sizeDelta, isLong, msg.sender, acceptablePrice, 0, 100000000000000, false, address(0));
         }
     }
 

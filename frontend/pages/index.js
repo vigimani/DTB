@@ -10,11 +10,12 @@ import {
 import { useState } from "react";
 import { useContractProvider } from "@/context/ContractContext";
 import Header from "@/components/header/Header";
-import Mainpanel from "@/components/mainPanel/Mainpanel";
+import Userlayout from "./../components/user/Userlayout";
 import { Main } from "next/document";
+import Footer from "../components/footer/Footer";
 export default function Home() {
 
-  const { isOwner } = useContractProvider();
+  const { isOwner, isConnected } = useContractProvider();
 
   return (
     <>
@@ -30,21 +31,16 @@ export default function Home() {
         w="100%"
         justifyContent={"center"}
         backgroundImage="bg_clair.png"
-        backgroundSize="cover"
+        backgroundSize="100%"
+        backgroundRepeat={"no-repeat"}
+        bg ="#F4F6FE"
       >
+        <Flex>
         <Flex w="1280px" direction="column">
-
-          {/* Header */}
           <Header/>
-
-          {/* CentralPanel */}
-          <Mainpanel />
-
-          <Flex h="100px" w="100%" bg="blue">
-            Footer
-          </Flex>
-
-
+          <Userlayout />
+          <Footer/>
+        </Flex>
         </Flex>
       </Flex>
     </>

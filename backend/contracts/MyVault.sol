@@ -81,11 +81,13 @@ contract MyVault is Ownable, ERC20 {
         tokenAccepted[tokenAddress] = true;
         emit NewTokenAdded(tokenAddress);
     }
+
     function removeToken(address tokenAddress) external onlyOwner {
         require(tokenAccepted[tokenAddress], "Token not yet added");
         tokenAccepted[tokenAddress] = false;
         emit TokenRemoved(tokenAddress);
     }
+
     function isAccepted(address tokenAddress) external view returns (bool) {
         return tokenAccepted[tokenAddress];
     }
@@ -98,9 +100,11 @@ contract MyVault is Ownable, ERC20 {
         GMX_controller = _addr;
         isInit = true;
     }
+
     function getGMX_controller() public view returns (address) {
         return GMX_controller;
     }
+
     // function setFees(uint8 _fees) external onlyOwner {
     //     fees = _fees;
     // }
@@ -126,9 +130,11 @@ contract MyVault is Ownable, ERC20 {
         exposition = _exposition;
         emit expoEvent(block.timestamp, oldexposition, exposition);
     }
+
     function getExposition() external view returns (uint8) {
         return exposition;
     }
+
     function openPosition() external payable onlyOwner {
         // require(IERC20(USDC).balanceOf(address(this)) > 15000000, "Amount too small to open a position, minimum 15$");
         bool isLong = (exposition == 1 ? true : false);
@@ -141,24 +147,37 @@ contract MyVault is Ownable, ERC20 {
             isLong
         );
     }
-    function liquidatePositions() external payable onlyOwner {
-        bool isLong = (exposition == 1 ? true : false);
+
+    // function liquidatePositions() external payable onlyOwner {
+    //     bool isLong = (exposition == 1 ? true : false);
+    //     IGMXController(GMX_controller).liquidatePosition{value: msg.value}(
+    //         isLong
+    //     );
+    // }
+    function liquidateLongPositions() external payable onlyOwner {
         IGMXController(GMX_controller).liquidatePosition{value: msg.value}(
-            isLong
+            true
         );
     }
 
+    function liquidateShortPositions() external payable onlyOwner {
+        IGMXController(GMX_controller).liquidatePosition{value: msg.value}(
+            false
+        );
+    }
 
     // ::::::::::::: NET ASSET VALUE OF THE FUNDS ::::::::::::: //
     //NOT READY
     function updateNetAssetValue() external onlyOwner {
         _updateNAV();
     }
+
+    //decimals 10**30
     function _updateNAV() private {
         uint256 oldNAV = netAssetValue;
         uint256 _deltavalueLong = 0;
         uint256 _deltavalueShort = 0;
-        uint256 usdcBal = ERC20(USDC).balanceOf(address(this));
+        uint256 usdcBal = ERC20(USDC).balanceOf(address(this)) * 10**24; ///10**18 met USDC 6 decimals donc 10**12
         (, uint256 _collateralLong, , , , , , ) = IGMXVault(gmxVault)
             .getPosition(GMX_controller, WETH, WETH, true);
         if (_collateralLong > 0) {
@@ -169,7 +188,7 @@ contract MyVault is Ownable, ERC20 {
                 true
             );
         }
-        uint256 posLong = (_collateralLong + _deltavalueLong)/10**24;
+        uint256 posLong = (_collateralLong + _deltavalueLong);
         (, uint256 _collateralShort, , , , , , ) = IGMXVault(gmxVault)
             .getPosition(GMX_controller, USDC, WETH, false);
         if (_collateralShort > 0) {
@@ -180,7 +199,7 @@ contract MyVault is Ownable, ERC20 {
                 false
             );
         }
-        uint256 posShort = (_collateralShort - _deltavalueShort)/10**24;
+        uint256 posShort = (_collateralShort - _deltavalueShort);
         netAssetValue = usdcBal + posLong + posShort;
         emit navEvent(
             block.timestamp,
@@ -193,6 +212,7 @@ contract MyVault is Ownable, ERC20 {
             this.totalSupply()
         );
     }
+
     function getNetAssetValue() external view returns (uint256) {
         return netAssetValue;
     }
@@ -205,14 +225,29 @@ contract MyVault is Ownable, ERC20 {
         require(tokenAccepted[tokenAddress], "Token not yet supported");
         require(_amount > 0, "Amount to deposit is mandatory");
         // require(msg.value > ,"");
-        uint256 amountToken = _amount - _amount / 100;
+        uint256 amountToken = _amount - _amount / 100; //1% entry fees paid to GMX [0.1% entry fees + 0.8% swap fees]
+        // uint256 amountToken = _amount;
         uint256 amountPLPToken;
+        console.log("Deposit");
+        console.log("Amount :", _amount);
+        console.log("Nav before operation :", netAssetValue);
         if (this.totalSupply() == 0) {
-            amountPLPToken = _amount;
+            amountPLPToken = _amount * (10**12); //10**18 / 10**6 decimals PLP / decimals USDC
         } else {
             _updateNAV();
-            amountPLPToken = ((amountToken * this.totalSupply()) / netAssetValue); //1% entry fees paid to GMX [0.1% entry fees + 0.8% swap fees]
+            if (exposition == 0) {
+                amountPLPToken = (((10**24) * _amount * this.totalSupply()) /
+                    netAssetValue);
+            } else {
+                amountPLPToken = (((10**24) *
+                    amountToken *
+                    this.totalSupply()) / netAssetValue); //10**30 decimals net asset value / 10**6 USDC
+            }
         }
+        console.log("Nav updated:", netAssetValue);
+        console.log("TS :", this.totalSupply());
+        console.log("PLP :", amountPLPToken);
+        console.log("Amount token :", amountToken);
         _mint(msg.sender, amountPLPToken);
         IERC20(tokenAddress).transferFrom(msg.sender, address(this), _amount);
         IERC20(tokenAddress).approve(GMX_controller, _amount);
@@ -236,19 +271,29 @@ contract MyVault is Ownable, ERC20 {
             amountPLPToken
         );
     }
+
     function withdraw(uint256 _amount) external payable {
         require(_amount > 0);
         require(
             this.balanceOf(msg.sender) >= _amount,
             "Surprisingly you cannot withdraw token you have not bought"
         );
+
+        console.log("Withdraw");
+        console.log("Amount :", _amount);
+        console.log("Nav before update:", netAssetValue);
         _updateNAV();
+        console.log("Nav :", netAssetValue);
+        console.log("TS :", this.totalSupply());
         uint256 unitPrice;
-        unitPrice = netAssetValue / this.totalSupply();
+        unitPrice = (netAssetValue / this.totalSupply()) / (10**12); //nav / 10**30 total supply / 10**18 -> /10**12
+        console.log("Shareprice :", unitPrice);
         _burn(msg.sender, _amount);
         uint256 amountToken = _amount - _amount / 100;
+        // uint256 amountToken = _amount;
+        console.log("Amount token :", amountToken);
         if (exposition == 0) {
-            IERC20(USDC).transfer(msg.sender, _amount * unitPrice);
+            IERC20(USDC).transfer(msg.sender, (_amount / 10**12) * unitPrice); //x10**18 / 10**6 -> 10**12
         } else if (exposition == 1) {
             IGMXController(GMX_controller).decreasePosition{value: msg.value}(
                 msg.sender,
@@ -262,11 +307,6 @@ contract MyVault is Ownable, ERC20 {
                 false
             );
         }
-        emit withdrawEvent(
-            msg.sender,
-            block.timestamp,
-            _amount,
-            unitPrice
-        );
+        emit withdrawEvent(msg.sender, block.timestamp, _amount, unitPrice);
     }
 }

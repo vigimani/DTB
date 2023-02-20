@@ -24,7 +24,7 @@ import {
     const isActive = (routeName) => {
         return router.pathname === routeName;
       };
-    const bgCard = useColorModeValue("white", "gray.600");
+    const bgCard = useColorModeValue("#F4F6FE", "gray.700");
     return (
         <>
       <Flex>
@@ -32,7 +32,8 @@ import {
         <HStack minH="100px">
           <Flex justifyContent={"center"}>
             <Button
-              bg={isActive("/") ? "#9FACE6" : {bgCard}}
+              // bg={isActive("/") ? "#9FACE6" : {bgCard}}
+              bg= {bgCard}
               justifyContent="flex-start"
               alignItems="center"
               borderRadius="15px"
@@ -42,7 +43,6 @@ import {
               }}
               w="100%"
               _active={{
-                bg: "inherit",
                 transform: "none",
                 borderColor: "transparent",
               }}
@@ -58,53 +58,20 @@ import {
                     w="30px"
                     me="12px"
                     borderRadius="10px"
-                    bgColor={"#9face6"}
+                    bgColor={isActive("/") ? "#9FACE6" : "transparent"}
                   >
                     <Icon mt="5px" as={FaWallet}/>
                   </Box>
-                  <Text my="auto" fontFamily={"Kanit"}>My investment</Text>
+                  <Text  textDecorationThickness={"3px"} textDecorationColor={isActive("/") ? "#9FACE6" : "transparent"} textDecorationLine="underline" my="auto" fontFamily={"Kanit"}>My investment</Text>
                 </Flex>
               </Link>
             </Button>
-            {/* <Button
-              justifyContent="flex-start"
-              alignItems="center"
-              borderRadius="15px"
-              bg={isActive("/addajob") ? "white" : "#F4F6FE"}
-              _hover={{
-                color: "white",
-                bg: "#9face6",
-              }}
-              w="100%"
-              // _active={{
-              //   bg: "inherit",
-              //   transform: "none",
-              //   borderColor: "transparent",
-              // }}
-              // _focus={{
-              //   boxShadow: "none",
-              // }}
-            >
-              <Link href="/addajob">
-                <Flex mr="2rem">
-                  <Box
-                    h="30px"
-                    w="30px"
-                    me="12px"
-                    borderRadius="10px"
-                    bgColor={"#9face6"}
-                  >
-                    <SunIcon mt="5px" />
-                  </Box>
-                  <Text my="auto" fontFamily={"Kanit"}>Fund info</Text>
-                </Flex>
-              </Link>
-            </Button> */}
             <Button ml="1rem"
               justifyContent="flex-start"
               alignItems="center"
               borderRadius="15px"
-              bg={isActive("/admin") ? "#9FACE6" : {bgCard}}
+              bg= {bgCard}
+              // bg=
               _hover={{
                 color: "white",
                 bg: "#9face6",
@@ -118,11 +85,11 @@ import {
                     w="30px"
                     me="12px"
                     borderRadius="10px"
-                    bgColor={"#9face6"}
+                    bgColor={isActive("/admin") ? "#9FACE6" : "transparent"}
                   >
                     <Icon mt="5px" as={MdAdminPanelSettings}/>
                   </Box>
-                  <Text my="auto" fontFamily={"Kanit"}>Admin panel</Text>
+                  <Text textDecorationThickness={"3px"} textDecorationColor={isActive("/admin") ? "#9FACE6" : "transparent"} textDecorationLine="underline" my="auto" fontFamily={"Kanit"}>Admin panel</Text>
                 </Flex>
               </Link>
             </Button>
