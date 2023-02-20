@@ -1,35 +1,18 @@
 import {
-  Image,
   Flex,
   Text,
   Box,
-  HStack,
-  Stack,
-  Switch,
-  Button,
   useColorModeValue,
-  useColorMode,
-  IconButton,
-  colorMode,
-  Table,
-  Thead,
-  Tr,
-  Td,
-  Tbody,
-  Th,
   Icon,
 } from "@chakra-ui/react";
-import { ABIS, ADDRESS } from "../../utils/@config";
-import { useState, useEffect } from "react";
-import { useContractProvider } from "@/context/ContractContext";
-import { ethers } from "ethers";
-import { timestampconvert } from "@/utils/utilsfunction";
-import { FaWallet } from "react-icons/fa";
 
 export default function Minicard({title, data, unity, icon}) {
+  const bgCard = useColorModeValue("white", "gray.600");
+  const colortext = useColorModeValue("#594B7E", "white");
   return (
     <>
-      <Box w="18%" boxShadow={"md"} p="20px" bg="white" borderRadius={"20px"}>
+      <Box w="18%" boxShadow={"md"} p="20px"               bg={bgCard}
+               borderRadius={"20px"}>
         <Flex justifyContent={"space-between"} alignItems="center">
           <Flex direction="column">
             <Flex
@@ -40,7 +23,7 @@ export default function Minicard({title, data, unity, icon}) {
             >
               {title}
             </Flex>
-            <Text fontFamily={"Kanit"} fontSize="xl" fontWeight="bold" color="#594B7E">
+            <Text fontFamily={"Kanit"} fontSize="xl" fontWeight="bold" color={colortext}>
               {data} {unity}
             </Text>
           </Flex>

@@ -7,12 +7,17 @@ import {
   TabPanel,
   TabPanels,
   TabList,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import Deposit from "./Deposit";
 import Withdraw from "./Withdraw";
 export default function Operation() {
   const [tabIndex, setTabIndex] = useState(0);
+  const bgCard = useColorModeValue("white", "gray.600");
+  const colortext = useColorModeValue("#594B7E", "white");
+  const colorfond2 = useColorModeValue("", "gray.400");
+  const colordepwith = useColorModeValue("#9face6","gray.600")
   return (
     <>
           <Flex
@@ -21,16 +26,18 @@ export default function Operation() {
             borderRadius={"30px"}
             w="30%"
             display="flex"
+
           >
             <Box
               boxShadow={"md"}
               p="25px"
-              bg="white"
               borderRadius={"30px"}
+              bg={bgCard}
+              color={colortext}
             >
           <Flex w="100%" direction="column">
             <Flex w="100%">
-            <Text color="#594B7E" fontFamily={"Kanit"} fontSize="lg" fontWeight="bold" mb="6px">
+            <Text color={colortext} fontFamily={"Kanit"} fontSize="lg" fontWeight="bold" mb="6px">
               Operation
             </Text>
           </Flex>
@@ -41,8 +48,8 @@ export default function Operation() {
                   <Tab
                     w="100%"
                     borderRadius="10px"
-                    bg={tabIndex == 0 ? "#9Face6" : ""}
-                    color={tabIndex == 0 ? "white" : "gray.400"}
+                    bg={tabIndex == 0 ? colordepwith : "#F4F6FE"}
+                    color={tabIndex == 0 ? "white" : "gray.600"}
                     fontWeight="extrabold"
                     fontFamily={"Kanit"}
                   >
@@ -51,8 +58,8 @@ export default function Operation() {
                   <Tab
                     w="100%"
                     borderRadius="10px"
-                    bg={tabIndex == 1 ? "#9Face6" : ""}
-                    color={tabIndex == 1 ? "white" : "gray.400"}
+                    bg={tabIndex == 1 ? colordepwith : "#F4F6FE"}
+                    color={tabIndex == 1 ? "white" : "gray.600"}
                     fontWeight="extrabold"
                     fontFamily={"Kanit"}
                   >
@@ -62,10 +69,10 @@ export default function Operation() {
               </Flex>
               <TabPanels w="100%" mt="1rem">
                 <TabPanel w="100%" p="0">
-                  <Deposit/>
+                  <Deposit bgCard = {bgCard} colortext={colortext} colorfond2={colorfond2}/>
                 </TabPanel>
                 <TabPanel w="100%" p="0">                  
-                  <Withdraw/>
+                  <Withdraw bgCard = {bgCard} colortext={colortext} colorfond2={colorfond2}/>
                 </TabPanel>
               </TabPanels>
             </Tabs>

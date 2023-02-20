@@ -2,7 +2,9 @@ import Head from "next/head";
 import {
   Text,
   Flex,
-  Box,
+  Heading,
+  Alert,
+  AlertIcon,
   useBreakpointValue,
   useColorModeValue,
   Image,
@@ -13,10 +15,10 @@ import Header from "@/components/header/Header";
 import Userlayout from "./../components/user/Userlayout";
 import { Main } from "next/document";
 import Footer from "../components/footer/Footer";
+import { useAccount, useBalance, useProvider, useSigner } from "wagmi";
 export default function Home() {
-
-  const { isOwner, isConnected } = useContractProvider();
-
+  const { isOwner } = useContractProvider();
+  const { address, isConnected } = useAccount();
   return (
     <>
       <Head>
@@ -26,21 +28,33 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Flex
-        minHeight="100vh"
-        w="100%"
-        justifyContent={"center"}
-        backgroundImage="bg_clair.png"
-        backgroundSize="100%"
-        backgroundRepeat={"no-repeat"}
-        bg ="#F4F6FE"
-      >
-        <Flex>
-        <Flex w="1280px" direction="column">
-          <Header/>
-          <Userlayout />
-          <Footer/>
-        </Flex>
+      <Flex minHeight="100vh" w="100%">
+        <Flex
+          w="100%"
+          backgroundImage="bg_clair.png"
+          backgroundSize="100%"
+          justifyContent={"center"}
+        >
+          <Flex w="1280px" direction="column">
+            <Header />
+
+            {isConnected ? (
+              <>
+                <Userlayout /> 
+                <Text></Text>
+              </> 
+            ) : (
+              <Flex h="80vh" w="100%" justifyContent={"center"}>
+                <Flex h="50px" mt="2rem">
+                <Alert status="warning" w="auto" borderRadius="10px">
+                  <AlertIcon />
+                  Connect to Metamask to use the Dapp
+                </Alert>
+              </Flex> 
+              </Flex>
+            )} 
+            <Footer />
+          </Flex>
         </Flex>
       </Flex>
     </>

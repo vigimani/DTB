@@ -12,17 +12,11 @@ import {
     IconButton,
     colorMode,
   } from "@chakra-ui/react";
-  import Link from "next/link";
-  import { useRouter } from "next/router";
-  import { PhoneIcon, SunIcon, MoonIcon } from "@chakra-ui/icons";
-  import Operation from "./Operation";
-  import Mytransactions from "./Mytransactions";
-  import Data from "./Data";
   import Graph from "./Graph";
   
   export default function Overview() {
-    const { colorMode, toggleColorMode } = useColorMode();
-  
+    const bgCard = useColorModeValue("white", "gray.600");
+    const colortext = useColorModeValue("#594B7E", "white");
     return (
       <>
           <Flex
@@ -35,12 +29,13 @@ import {
             <Box
               boxShadow={"md"}
               p="25px"
-              bg="white"
+              bg={bgCard}
+              color={colortext}
               borderRadius={"30px"}
             >
               <Flex w="100%" direction="column">
                 <Flex
-                  color="#594B7E"
+                  color={colortext}
                   fontFamily={"Kanit"}
                   fontSize="lg"
                   fontWeight="bold"

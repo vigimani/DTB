@@ -30,7 +30,15 @@ import Adminoperations from "@/components/admin/Adminoperations";
 import Adminreader from "@/components/admin/Adminreader";
 
 export default function Admin() {
-  const { isConnected, isOwner, signer, updateData, expo, setExpo, setExposition } = useContractProvider();
+  const {
+    isConnected,
+    isOwner,
+    signer,
+    updateData,
+    expo,
+    setExpo,
+    setExposition,
+  } = useContractProvider();
   const toast = useToast();
   const [isTokenaccepted, setIstokenaccepted] = useState(false);
   const [gmxcontroller, setGmxcontroller] = useState();
@@ -108,7 +116,6 @@ export default function Admin() {
       });
     }
   };
-
   const removeToken = async (_addr) => {
     try {
       const contract = new ethers.Contract(
@@ -136,7 +143,6 @@ export default function Admin() {
       });
     }
   };
-
   const tokenaccept = async (_addr) => {
     try {
       const contract = new ethers.Contract(
@@ -154,7 +160,6 @@ export default function Admin() {
       setIstokenaccepted(false);
     }
   };
-
   const openpos = async () => {
     try {
       let keepersFee = ethers.utils.parseEther("0.0001");
@@ -367,38 +372,42 @@ export default function Admin() {
       >
         <Flex w="1280px" direction="column">
           <Header />
-
-          <Flex h="100%" justifyContent={"center"}>
-            <Initialisation
-              removeToken={removeToken}
-              setRemovetoken={setRemovetoken}
-              tokenaccept={tokenaccept}
-              addToken={addToken}
-              setNewtoken={setNewtoken}
-              controllerGMX={controllerGMX}
-              gmxcontroller={gmxcontroller}
-              newtoken={newtoken}
-              removetoken={removetoken}
-              isTokenaccepted={isTokenaccepted}
-              getcontrollerGMX={getcontrollerGMX}
-            />
-            <Adminoperations
-              liquidatelongpos={liquidatelongpos}
-              liquidateshortpos={liquidateshortpos}
-              updatenetassetvalue={updatenetassetvalue}
-              exeincreasepos={exeincreasepos}
-              exedecreasepos={exedecreasepos}
-              openpos={openpos}
-              setExposition={setExposition}
-              netassetvalue={netassetvalue}
-              expo={expo}
-            />
-            <Adminreader expo={expo} setExpo={setExpo} />
-          </Flex>
-
-          <Flex w="100%" alignSelf={"center"} direction="column">
-            <Adminevents />
-          </Flex>
+          {isOwner ? (
+            <>
+              <Flex h="100%" justifyContent={"center"}>
+                <Initialisation
+                  removeToken={removeToken}
+                  setRemovetoken={setRemovetoken}
+                  tokenaccept={tokenaccept}
+                  addToken={addToken}
+                  setNewtoken={setNewtoken}
+                  controllerGMX={controllerGMX}
+                  gmxcontroller={gmxcontroller}
+                  newtoken={newtoken}
+                  removetoken={removetoken}
+                  isTokenaccepted={isTokenaccepted}
+                  getcontrollerGMX={getcontrollerGMX}
+                />
+                <Adminoperations
+                  liquidatelongpos={liquidatelongpos}
+                  liquidateshortpos={liquidateshortpos}
+                  updatenetassetvalue={updatenetassetvalue}
+                  exeincreasepos={exeincreasepos}
+                  exedecreasepos={exedecreasepos}
+                  openpos={openpos}
+                  setExposition={setExposition}
+                  netassetvalue={netassetvalue}
+                  expo={expo}
+                />
+                <Adminreader expo={expo} setExpo={setExpo} />
+              </Flex>
+               <Flex w="100%" alignSelf={"center"} direction="column">
+                <Adminevents />
+              </Flex>
+            </>
+          ) : (
+            <></>
+          )}
 
           <Footer />
         </Flex>

@@ -27,7 +27,7 @@ import {
   import { ethers } from "ethers";
   import { ADDRESS, ABIS } from "../../utils/@config";
   import { numberWithSpaces } from "@/utils/utilsfunction";
-  export default function Withdraw() {
+  export default function Withdraw({bgCard, colortext, colorfond2}) {
     const { plpBalance, updateUsdcBalance, updatePlpBalance, signer, updateData } =
       useContractProvider();
     const toast = useToast();
@@ -87,7 +87,7 @@ import {
                     justifyContent={"space-between"}
                     alignItems="center"
                   >
-                    <Flex p="5" alignItems={"center"} h="100%">
+                    <Flex p="5" alignItems={"center"} h="100%" color="gray.600">
                       <Flex borderRadius="8px" alignItems={"center"} bgGradient="linear(to-r, #949DD6, #594B7E)">
                       <Image boxSize="50px" objectFit="cover" src='./logoFun.png' alt='Logo' />
                       </Flex>
@@ -95,7 +95,7 @@ import {
                         <Flex fontFamily={"Kanit"}>
                         {/* <Input value={depositAmount} w="100px" type="number" fontSize={"md"} h="32px" placeholder='0' borderColor={"transparent"} onChange={(e) => setDepositAmount(e.target.value)}/> */}
 
-                        <Input w="100px" type="number" fontSize={"md"} placeholder='0' borderColor={"transparent"} onChange={(e) => setWithdrawAmount(e.target.value)}/>
+                        <Input w="100px" type="number" fontSize={"md"} placeholder='0' borderColor={colorfond2} onChange={(e) => setWithdrawAmount(e.target.value)}/>
                         <Flex ml="1rem" alignSelf={"center"}>PLP</Flex>
                         </Flex>
                         <Flex fontSize={"xs"}>
@@ -120,7 +120,7 @@ import {
                     </Button>
                   </Flex>
                   <Flex mb="1rem" alignItems={"center"}>
-                    <InfoIcon color="#594B7E" />
+                    <InfoIcon color={colortext} />
                     <Text ml="1rem" fontSize={"xs"}>
                       For the moment you can only deposit USDC!
                     </Text>

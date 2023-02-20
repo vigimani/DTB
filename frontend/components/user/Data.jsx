@@ -87,18 +87,20 @@ export default function Data() {
       {expo == 0 ? (
         <>
           <Flex direction="raw" justifyContent={"space-between"}>
-            <Minicard title="TVL" data={vaultusdc} unity={"$"}/>
+            <Minicard title="TVL" data={vaultusdc} unity={"$"}               icon={BsFillBarChartFill}/>
             <Minicard
               title="Total PLP supply"
               data={numberWithSpaces(totalsupply.toFixed(0))}
               unity={"PLP"}
+              icon = {FaCoins}
             />
-            <Minicard title="Current exposition" data="Neutral" />
-            <Minicard title="Leverage" data="0" />
+            <Minicard title="Current exposition" data="Neutral"  icon={FiActivity}/>
+            <Minicard title="Leverage" data="0"               icon = {FaBalanceScale}/>
             <Minicard
               title="PLP share price"
               data={totalsupply == 0 ? 0 : vaultusdc / totalsupply}
               unity={"$"}
+              icon={HiCurrencyDollar}
             />
           </Flex>
         </>
@@ -155,17 +157,20 @@ export default function Data() {
                 ).toFixed(2)
               )}
               unity={"$"}
+              icon={BsFillBarChartFill}
             />
             <Minicard
               title="Total PLP supply"
               data={numberWithSpaces(totalsupply.toFixed(0))}
               unity={"PLP"}
+              icon = {FaCoins}
             />
-            <Minicard title="Current exposition" data="Short" />
+            <Minicard title="Current exposition" data="Short" icon={FiActivity} />
             <Minicard
               title="Leverage"
               data={shortleverage.toFixed(1).toString()}
               unity={"x"}
+              icon = {FaBalanceScale}
             />
             <Minicard
               title="PLP share price"
@@ -177,6 +182,7 @@ export default function Data() {
                 ).toFixed(2)
               )}
               unity={"$"}
+              icon={HiCurrencyDollar}
             />
           </Flex>
         </>

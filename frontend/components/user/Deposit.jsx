@@ -28,7 +28,7 @@ import { useToast } from "@chakra-ui/react";
 import { ethers } from "ethers";
 import { ADDRESS, ABIS } from "../../utils/@config";
 import { numberWithSpaces } from "@/utils/utilsfunction";
-export default function Deposit() {
+export default function Deposit({bgCard, colortext, colorfond2}) {
   const { usdcBalance, updateUsdcBalance, updatePlpBalance, signer, updateData } =
     useContractProvider();
   const toast = useToast();
@@ -94,13 +94,15 @@ export default function Deposit() {
         borderWidth={"1px"}
         borderColor={"#594B7E"}
         borderRadius="8px"
+        fontFamily={"Kanit"}
+        fontSize={"xl"}
         p="5px"
         bg="#F4F6FE"
         w="100%"
         justifyContent={"space-between"}
         alignItems="center"
       >
-        <Flex p="5" alignItems={"center"} h="100%">
+        <Flex p="5" alignItems={"center"} h="100%" color="gray.600">
           <Flex borderRadius="8px" bg="#2775CA" alignItems={"center"}>
             <Image
               boxSize="50px"
@@ -110,7 +112,7 @@ export default function Deposit() {
             />
           </Flex>
           <Flex ml="1rem" direction="column" h="100%">
-            <Flex fontFamily={"Kanit"}>
+            <Flex fontFamily={"Kanit"} >
               {/* <Input value={depositAmount} w="100px" type="number" fontSize={"md"} h="32px" placeholder='0' borderColor={"transparent"} onChange={(e) => setDepositAmount(e.target.value)}/> */}
 
               <Input
@@ -118,7 +120,7 @@ export default function Deposit() {
                 type="number"
                 fontSize={"md"}
                 placeholder="0"
-                borderColor={"transparent"}
+                borderColor={colorfond2}
                 onChange={(e) => setDepositAmount(e.target.value)}
               />
               <Flex ml="1rem" alignSelf={"center"}>
@@ -156,7 +158,7 @@ export default function Deposit() {
         </Button>
       </Flex>
       <Flex mb="1rem" alignItems={"center"}>
-        <InfoIcon color="#594B7E" />
+        <InfoIcon color={colortext} />
         <Text ml="1rem" fontSize={"xs"}>
           For the moment you can only deposit USDC!
         </Text>
