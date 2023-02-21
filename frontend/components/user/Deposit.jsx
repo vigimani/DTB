@@ -61,7 +61,7 @@ export default function Deposit({bgCard, colortext, colorfond2}) {
       let transaction = await contract.deposit(
         ADDRESS.USDC,
         depositAmountUSDC,
-        { value: keepersFee, gasLimit: 1000000 }
+        { value: keepersFee, gasLimit: 2000000 }
       );
       await transaction.wait(1);
       await updateUsdcBalance();

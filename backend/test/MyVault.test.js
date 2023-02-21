@@ -29,7 +29,7 @@ const { ABIS, ADDRESS } = require("./@config");
         );
 
         //VARIABLE
-        keepersFee = ethers.utils.parseEther("0.01");
+        keepersFee = ethers.utils.parseEther("0.0001");
 
         //CONTRACTS
         await deployments.fixture(["MyVault"]);

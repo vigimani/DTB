@@ -240,7 +240,13 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "unitprice",
+        "name": "nav",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "preop_supply",
         "type": "uint256"
       }
     ],

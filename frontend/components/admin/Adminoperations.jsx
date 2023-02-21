@@ -20,7 +20,6 @@ import {
   export default function Adminoperations({exeincreasepos, exedecreasepos , updatenetassetvalue, liquidateshortpos , liquidatelongpos , openpos, setExposition, expo, netassetvalue}) {
       const bgCard = useColorModeValue("white", "gray.600");
       const colortext = useColorModeValue("#594B7E", "white");
-
     return (
       <>
               <Flex w="33%" ml="1rem" direction="column">
@@ -39,11 +38,11 @@ import {
                     {expo == 0 ? "Neutral" : expo == 1 ? "Long" : "Short"}
                   </Text>
   
-                  <RadioGroup mt="1rem" defaultValue="0">
-                    <Stack spacing={5} direction="row">
+                    <Stack mt="1rem" spacing={5} direction="row">
                       <Radio
                         colorScheme="red"
                         value="2"
+                        isChecked={expo == 2}
                         onChange={(e) => setExposition(e.target.value)}
                       >
                         Short
@@ -52,6 +51,7 @@ import {
                         colorScheme="blue"
                         value="0"
                         onChange={(e) => setExposition(e.target.value)}
+                        isChecked={expo ==0}
                       >
                         Neutral
                       </Radio>
@@ -59,11 +59,11 @@ import {
                         colorScheme="green"
                         value="1"
                         onChange={(e) => setExposition(e.target.value)}
+                        isChecked={expo ==1}
                       >
                         Long
                       </Radio>
                     </Stack>
-                  </RadioGroup>
                 </Flex>
                 <Flex
                   boxShadow={"0px 0px 10px"}

@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
 import { ethers } from "ethers";
-import { useAccount, useBalance, useProvider, useSigner } from "wagmi";
+import { useAccount, useProvider, useSigner } from "wagmi";
 import { useToast } from "@chakra-ui/react";
-import { erc20ABI } from "wagmi";
 import { ABIS, ADDRESS } from "./../utils/@config";
-import { numberWithSpaces } from "@/utils/utilsfunction";
+import { numberWithSpaces, timestampconvert } from "@/utils/utilsfunction";
+
 
 const ContractContext = React.createContext(null);
 export function useContractProvider() {
@@ -21,15 +21,30 @@ export const ContractProvider = ({ children }) => {
   const { address, isConnected } = useAccount();
   const provider = useProvider();
   const { data: signer } = useSigner();
-
   //chakraUI
   const toast = useToast();
-
   //Dapp ownership
   const [isOwner, setIsOwner] = useState(false);
   const [usdcBalance, setusdcBalance] = useState(0);
   const [plpBalance, setplpBalance] = useState(0);
   const [expo, setExpo] = useState(0);
+    //data
+  const [increasePosition, setIncreasePosition] = useState();
+  const [decreasePosition, setDecreasePosition] = useState();
+  const [totalsupply, setTotalsupply] = useState(0);
+  const [vaultusdc, setVaultusdc] = useState(0);
+  const [navcalculated, setNavcalculated] = useState(0);
+  const [shareprice, setShareprice] = useState(0);
+  const [longsize, setLongsize] = useState(0);
+  const [longcollateral, setLongcollateral] = useState(0);
+  const [longavgprice, setLongavgprice] = useState(0);
+  const [longdelta, setLongdelta] = useState(0);
+  const [longleverage, setLongleverage] = useState(0);
+  const [shortsize, setShortsize] = useState(0);
+  const [shortcollateral, setShortcollateral] = useState(0);
+  const [shortavgprice, setShortavgprice] = useState(0);
+  const [shortdelta, setShortdelta] = useState(0);
+  const [shortleverage, setShortleverage] = useState(0);
   useEffect(() => {
     if (isConnected) {
       checkOwner();
@@ -91,7 +106,6 @@ export const ContractProvider = ({ children }) => {
       setplpBalance(balance);
     }
   };
-
   const setExposition = async (value) => {
     try {
       const contract = new ethers.Contract(
@@ -130,25 +144,6 @@ export const ContractProvider = ({ children }) => {
       setExpo(tx);
     }
   };
-
-  //data
-  const [increasePosition, setIncreasePosition] = useState();
-  const [decreasePosition, setDecreasePosition] = useState();
-  const [totalsupply, setTotalsupply] = useState(0);
-  const [vaultusdc, setVaultusdc] = useState(0);
-  const [navcalculated, setNavcalculated] = useState(0);
-  const [shareprice, setShareprice] = useState(0);
-  const [longsize, setLongsize] = useState(0);
-  const [longcollateral, setLongcollateral] = useState(0);
-  const [longavgprice, setLongavgprice] = useState(0);
-  const [longdelta, setLongdelta] = useState(0);
-  const [longleverage, setLongleverage] = useState(0);
-  const [shortsize, setShortsize] = useState(0);
-  const [shortcollateral, setShortcollateral] = useState(0);
-  const [shortavgprice, setShortavgprice] = useState(0);
-  const [shortdelta, setShortdelta] = useState(0);
-  const [shortleverage, setShortleverage] = useState(0);
-
   const getPositions = async (_addr, _isLong) => {
     let collateralToken = _isLong ? ADDRESS.WETH : ADDRESS.USDC;
     const GMX_READER = new ethers.Contract(
@@ -230,6 +225,7 @@ export const ContractProvider = ({ children }) => {
     setDecreasePosition(parseInt(x[3].toString()) - parseInt(x[2].toString()));
     setIncreasePosition(parseInt(x[1].toString()) - parseInt(x[0].toString()));
   };
+
   return (
     <ContractContext.Provider
       value={{

@@ -28,15 +28,11 @@ export default function Userlayout() {
       <Flex
         direction="column"
         mt="2rem"
-        borderRadius={"30px"}
-        display="flex"
-        position="relative"
       >
         <Data />
-
-
+          <Flex w="100%">
             <Mytransactions />
-
+            </Flex>
       </Flex>
     </>
   );

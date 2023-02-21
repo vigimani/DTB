@@ -121,7 +121,7 @@ describe("GMX controller unit tests", () => {
   });
   describe("Contract interraction with GMX", function () {
     before(async function () {
-      keepersFee = ethers.utils.parseEther("0.01");
+      keepersFee = ethers.utils.parseEther("0.0001");
     });
     describe("Initialisation", function () {
       it("Should approved GMX Router in constructor", async () => {

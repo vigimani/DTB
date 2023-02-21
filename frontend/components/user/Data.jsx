@@ -1,33 +1,11 @@
-import {
-  Image,
-  Flex,
-  Text,
-  Box,
-  HStack,
-  Stack,
-  Switch,
-  Button,
-  useColorModeValue,
-  useColorMode,
-  IconButton,
-  colorMode,
-  Table,
-  Thead,
-  Tr,
-  Td,
-  Tbody,
-  Th,
-  Icon,
-} from "@chakra-ui/react";
-import { ABIS, ADDRESS } from "../../utils/@config";
+import { Flex } from "@chakra-ui/react";
+import { ADDRESS } from "../../utils/@config";
 import { useState, useEffect } from "react";
 import { useContractProvider } from "@/context/ContractContext";
-import { ethers } from "ethers";
-import { timestampconvert } from "@/utils/utilsfunction";
-import { FaWallet,FaCoins, FaBalanceScale } from "react-icons/fa";
-import {HiCurrencyDollar} from "react-icons/hi"
-import {BsFillBarChartFill, BsFillArrowUpCircleFill,BsFillArrowDownCircleFill} from "react-icons/bs"
-import {FiActivity} from "react-icons/fi"
+import { FaCoins, FaBalanceScale } from "react-icons/fa";
+import { HiCurrencyDollar } from "react-icons/hi";
+import { BsFillBarChartFill } from "react-icons/bs";
+import { FiActivity } from "react-icons/fi";
 
 import Minicard from "./Minicard";
 import { numberWithSpaces } from "@/utils/utilsfunction";
@@ -87,18 +65,31 @@ export default function Data() {
       {expo == 0 ? (
         <>
           <Flex direction="raw" justifyContent={"space-between"}>
-            <Minicard title="TVL" data={vaultusdc} unity={"$"}               icon={BsFillBarChartFill}/>
+            <Minicard
+              title="TVL"
+              data={numberWithSpaces(vaultusdc.toFixed(2))}
+              unity={"$"}
+              icon={BsFillBarChartFill}
+            />
             <Minicard
               title="Total PLP supply"
               data={numberWithSpaces(totalsupply.toFixed(0))}
               unity={"PLP"}
-              icon = {FaCoins}
+              icon={FaCoins}
             />
-            <Minicard title="Current exposition" data="Neutral"  icon={FiActivity}/>
-            <Minicard title="Leverage" data="0"               icon = {FaBalanceScale}/>
+            <Minicard
+              title="Current exposition"
+              data="Neutral"
+              icon={FiActivity}
+            />
+            <Minicard title="Leverage" data="1" icon={FaBalanceScale} />
             <Minicard
               title="PLP share price"
-              data={totalsupply == 0 ? 0 : vaultusdc / totalsupply}
+              data={
+                totalsupply == 0
+                  ? 0
+                  : numberWithSpaces((vaultusdc / totalsupply).toFixed(2))
+              }
               unity={"$"}
               icon={HiCurrencyDollar}
             />
@@ -122,14 +113,18 @@ export default function Data() {
               title="Total PLP supply"
               data={numberWithSpaces(totalsupply.toFixed(0))}
               unity={"PLP"}
-              icon = {FaCoins}
+              icon={FaCoins}
             />
-            <Minicard title="Current exposition" data="Long"  icon={FiActivity}/>
+            <Minicard
+              title="Current exposition"
+              data="Long"
+              icon={FiActivity}
+            />
             <Minicard
               title="Leverage"
               data={longleverage.toFixed(1).toString()}
               unity={"x"}
-                icon = {FaBalanceScale}
+              icon={FaBalanceScale}
             />
             <Minicard
               title="PLP share price"
@@ -163,14 +158,18 @@ export default function Data() {
               title="Total PLP supply"
               data={numberWithSpaces(totalsupply.toFixed(0))}
               unity={"PLP"}
-              icon = {FaCoins}
+              icon={FaCoins}
             />
-            <Minicard title="Current exposition" data="Short" icon={FiActivity} />
+            <Minicard
+              title="Current exposition"
+              data="Short"
+              icon={FiActivity}
+            />
             <Minicard
               title="Leverage"
               data={shortleverage.toFixed(1).toString()}
               unity={"x"}
-              icon = {FaBalanceScale}
+              icon={FaBalanceScale}
             />
             <Minicard
               title="PLP share price"

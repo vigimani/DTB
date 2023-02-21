@@ -38,7 +38,8 @@ contract MyVault is Ownable, ERC20 {
         address indexed account,
         uint256 when,
         uint256 amount,
-        uint256 unitprice
+        uint256 nav,
+        uint256 preop_supply
     );
     event navEvent(
         uint256 when,
@@ -51,17 +52,13 @@ contract MyVault is Ownable, ERC20 {
         uint256 totalsupply
     );
 
-    // event Withdrawal();
 
     // ::::::::::::: CONSTRUCTOR ::::::::::::: //
-
     constructor() ERC20("Polyplus", "PLP") {
-        // _mint(msg.sender, 100 * 10**uint256(decimals()));
         exposition = 0;
         netAssetValue = 1;
         isInit = false;
     }
-
     modifier isInitialized() {
         require(
             isInit == true,
@@ -136,7 +133,6 @@ contract MyVault is Ownable, ERC20 {
     }
 
     function openPosition() external payable onlyOwner {
-        // require(IERC20(USDC).balanceOf(address(this)) > 15000000, "Amount too small to open a position, minimum 15$");
         bool isLong = (exposition == 1 ? true : false);
         IERC20(USDC).approve(
             GMX_controller,
@@ -226,7 +222,6 @@ contract MyVault is Ownable, ERC20 {
         require(_amount > 0, "Amount to deposit is mandatory");
         // require(msg.value > ,"");
         uint256 amountToken = _amount - _amount / 100; //1% entry fees paid to GMX [0.1% entry fees + 0.8% swap fees]
-        // uint256 amountToken = _amount;
         uint256 amountPLPToken;
         console.log("Deposit");
         console.log("Amount :", _amount);
@@ -251,7 +246,6 @@ contract MyVault is Ownable, ERC20 {
         _mint(msg.sender, amountPLPToken);
         IERC20(tokenAddress).transferFrom(msg.sender, address(this), _amount);
         IERC20(tokenAddress).approve(GMX_controller, _amount);
-        //changer par if expo != 0 bool ...
         if (exposition == 1) {
             IGMXController(GMX_controller).increasePosition{value: msg.value}(
                 _amount,
@@ -278,35 +272,27 @@ contract MyVault is Ownable, ERC20 {
             this.balanceOf(msg.sender) >= _amount,
             "Surprisingly you cannot withdraw token you have not bought"
         );
-
+        bool isLong = (exposition == 1 ? true : false);
         console.log("Withdraw");
         console.log("Amount :", _amount);
         console.log("Nav before update:", netAssetValue);
         _updateNAV();
         console.log("Nav :", netAssetValue);
         console.log("TS :", this.totalSupply());
-        uint256 unitPrice;
-        unitPrice = (netAssetValue / this.totalSupply()) / (10**12); //nav / 10**30 total supply / 10**18 -> /10**12
-        console.log("Shareprice :", unitPrice);
+        uint256 preop_supply = this.totalSupply();
         _burn(msg.sender, _amount);
-        uint256 amountToken = _amount - _amount / 100;
-        // uint256 amountToken = _amount;
-        console.log("Amount token :", amountToken);
+        
         if (exposition == 0) {
-            IERC20(USDC).transfer(msg.sender, (_amount / 10**12) * unitPrice); //x10**18 / 10**6 -> 10**12
-        } else if (exposition == 1) {
+            console.log("retrait :", (10**6*_amount *netAssetValue)/(preop_supply*10**30));
+            IERC20(USDC).transfer(msg.sender,(10**6*_amount *netAssetValue)/(preop_supply*10**30));
+        } else {
+            console.log("retrait :", (99*10**4*_amount *netAssetValue)/(preop_supply*10**30));
             IGMXController(GMX_controller).decreasePosition{value: msg.value}(
                 msg.sender,
-                amountToken * unitPrice,
-                true
+                (99*10**4*_amount *netAssetValue)/(preop_supply*10**30), // [decimals USDC] * (#PLP / [decimals PLP]) * (NAV / [decimals NAV]) * ([decimals TS] / TS)) | 99% pour prendre en compte l'effet dillutif des frais GMX à la sortie
+                isLong
             );
-        } else if (exposition == 2) {
-            IGMXController(GMX_controller).decreasePosition{value: msg.value}(
-                msg.sender,
-                amountToken * unitPrice,
-                false
-            );
-        }
-        emit withdrawEvent(msg.sender, block.timestamp, _amount, unitPrice);
+        } 
+        emit withdrawEvent(msg.sender, block.timestamp, _amount, netAssetValue, preop_supply);
     }
 }

@@ -170,7 +170,7 @@ export default function Admin() {
       );
       let tx = await contract.openPosition({
         value: keepersFee,
-        gasLimit: 2000000,
+        gasLimit: 1000000,
       });
       await tx.wait(1);
       updateData();
@@ -201,7 +201,7 @@ export default function Admin() {
       );
       let tx = await contract.liquidateLongPositions({
         value: keepersFee,
-        gasLimit: 10000000,
+        gasLimit: 2000000,
       });
       await tx.wait(1);
       updateData();
@@ -232,7 +232,7 @@ export default function Admin() {
       );
       let tx = await contract.liquidateShortPositions({
         value: keepersFee,
-        gasLimit: 10000000,
+        gasLimit: 2000000,
       });
       await tx.wait(1);
       updateData();
@@ -372,7 +372,7 @@ export default function Admin() {
       >
         <Flex w="1280px" direction="column">
           <Header />
-          {isOwner ? (
+          {isOwner && isConnected ? (
             <>
               <Flex h="100%" justifyContent={"center"}>
                 <Initialisation

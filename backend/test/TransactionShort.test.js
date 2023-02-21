@@ -22,7 +22,7 @@ const {getData, WaitingPositionsLength, VaultInfo, UserInfo, PositionInfo, Imper
         gmxAdmin = await Impersonate(ADDRESS.GMX_ADMIN_ACCOUNT) //to athorize a keepers for validating tx
 
         //VARIABLE
-        keepersFee = ethers.utils.parseEther("0.01");
+        keepersFee = ethers.utils.parseEther("0.0001");
         deposit1 = "100000000" //100 USDC
         deposit2 = "150000000"
         deposit3 = "250000000"

@@ -8,7 +8,9 @@ function numberWithSpaces(x) {
 function timestampconvert(date) {
     let milliseconds = 1000*date
     let dateObject = new Date(milliseconds)
-    return dateObject.toLocaleString()
+    let mins = ('0'+dateObject.getMinutes()).slice(-2)
+    let dateformatted = dateObject.toLocaleDateString("fr").concat(" ").concat(dateObject.getHours()).concat("h").concat(mins)
+    return dateformatted
   }
   
 module.exports = {

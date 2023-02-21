@@ -32,7 +32,7 @@ const { ABIS, ADDRESS } = require("./@config");
         );
 
         //VARIABLE
-        keepersFee = ethers.utils.parseEther("0.01");
+        keepersFee = ethers.utils.parseEther("0.0001");
         deposit1 = "100000000"
         deposit2 = "150000000"
         deposit3 = "250000000"

@@ -6,7 +6,7 @@ export default function Adminevents({}) {
   const colortext = useColorModeValue("#594B7E", "white");
   return (
     <>
-      <Flex w="100%" direction="column">
+      {/* <Flex w="100%" direction="column">
         <Heading color={colortext}>Events</Heading>
         <Flex
           boxShadow={"0px 0px 10px"}
@@ -42,7 +42,7 @@ export default function Adminevents({}) {
             <Navevent />
           </Flex>
         </Flex>
-      </Flex>
+      </Flex> */}
     </>
   );
 }
