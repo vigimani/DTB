@@ -1,16 +1,5 @@
 import {
-    Image,
     Flex,
-    Text,
-    Box,
-    HStack,
-    Stack,
-    Switch,
-    Button,
-    useColorModeValue,
-    useColorMode,
-    IconButton,
-    colorMode,
     Table,
     Thead,
     Tr,
@@ -21,16 +10,10 @@ import {
   import { ABIS, ADDRESS } from "../../../utils/@config";
   import { useState, useEffect } from "react";
   import { useContractProvider } from "@/context/ContractContext";
-  import { erc20ABI } from "wagmi";
   import { ethers } from "ethers";
   
   export default function Navevent() {
     const {
-      isConnected,
-      isOwner,
-      vaultAddress,
-      controllerAddres,
-      signer,
       provider,
     } = useContractProvider();
     const [events, setEvents] = useState([]);

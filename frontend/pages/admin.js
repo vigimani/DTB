@@ -11,8 +11,8 @@ import {
   Stack,
   Text,
   Heading,
-  List,
-  ListItem,
+  Alert,
+  AlertIcon,
   useColorModeValue,
   useColorMode,
 } from "@chakra-ui/react";
@@ -357,10 +357,10 @@ export default function Admin() {
   return (
     <>
       <Head>
-        <title>PLP</title>
+        <title>PLP Decentralized Trading Bot</title>
         <meta name="description" content="Decentralized Trading Bot" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logoFun.png" />
       </Head>
 
       <Flex
@@ -401,12 +401,19 @@ export default function Admin() {
                 />
                 <Adminreader expo={expo} setExpo={setExpo} />
               </Flex>
-               <Flex w="100%" alignSelf={"center"} direction="column">
+              <Flex w="100%" alignSelf={"center"} direction="column">
                 <Adminevents />
               </Flex>
             </>
           ) : (
-            <></>
+            <Flex h="80vh" w="100%" justifyContent={"center"}>
+              <Flex h="50px" mt="2rem">
+                <Alert status="warning" w="auto" borderRadius="10px">
+                  <AlertIcon />
+                  Connect to Metamask to use the Dapp
+                </Alert>
+              </Flex>
+            </Flex>
           )}
 
           <Footer />

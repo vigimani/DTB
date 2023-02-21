@@ -1,16 +1,5 @@
 import {
-  Image,
   Flex,
-  Text,
-  Box,
-  HStack,
-  Stack,
-  Switch,
-  Button,
-  useColorModeValue,
-  useColorMode,
-  IconButton,
-  colorMode,
   Table,
   Thead,
   Tr,
@@ -26,11 +15,6 @@ import { ethers } from "ethers";
 
 export default function Transactions() {
   const {
-    isConnected,
-    isOwner,
-    vaultAddress,
-    controllerAddres,
-    signer,
     provider,
   } = useContractProvider();
   const [transactions, setTransactions] = useState([]);
@@ -79,7 +63,6 @@ export default function Transactions() {
   };
   return (
     <>
-
       <Flex>
         <Table>
           <Thead>

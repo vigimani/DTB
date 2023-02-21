@@ -2,9 +2,7 @@
 import React from "react";
 import { Flex, Link, List, ListItem, Text } from "@chakra-ui/react";
 
-
 export default function Footer() {
-  // const linkTeal = useColorModeValue("teal.400", "red.200");=
   return (
             
     <Flex justifyContent={"flex-end"} h="100px" w="100%" >
@@ -22,7 +20,7 @@ export default function Footer() {
       >
         &copy; {1900 + new Date().getYear()},{"  "}
         <Text as="span">
-                Made with ❤️ by VG
+                Made by Victor G
         </Text>
         </Flex>
         </Flex>

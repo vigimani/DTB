@@ -1,5 +1,4 @@
 //SPDX-License-Identifier: MIT
-
 pragma solidity 0.8.17;
 import "./../node_modules/@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "./../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -7,12 +6,18 @@ import "./../node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.so
 import "./../node_modules/@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 import "./../node_modules/@uniswap/v3-periphery/contracts/interfaces/IQuoter.sol";
 import "./../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-import "./libraries/console.sol";
 import "./../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./interface/IGMXController.sol";
 import "./interface/gmx/IGMXVault.sol";
 
-///Arbitrum project
+/// @title Vault contract to receive funds and rebalance on GMX thanks to controller according to exposition strategy
+/// @author Victor Gillibert
+/// @notice It works as a fund manager, send token as shares of the vault according to the value in it, send back USDC when token are given back
+/// @dev Improvement to do :
+/// @dev Add fees to compensate for transaction fees paid when position need to be modified
+/// @dev Allow other token to be added
+/// @dev Add non reentrantGard from OZ
+/// @custom:experimental This is an experimental contract.
 contract MyVault is Ownable, ERC20 {
     // ::::::::::::: VARIABLE AND EVENT ::::::::::::: //
     address public GMX_controller;
@@ -21,8 +26,7 @@ contract MyVault is Ownable, ERC20 {
     address public gmxVault = 0x489ee077994B6658eAfA855C308275EAd8097C4A;
     uint256 public netAssetValue;
     uint8 public exposition; //0 neutral - 1 Long ETH - 2 short ETH
-    uint8 public fees;
-    bool isInit;
+
     mapping(address => bool) public tokenAccepted;
     event NewTokenAdded(address tokenAddress);
     event TokenRemoved(address tokenAddress);
@@ -52,19 +56,11 @@ contract MyVault is Ownable, ERC20 {
         uint256 totalsupply
     );
 
-
     // ::::::::::::: CONSTRUCTOR ::::::::::::: //
+
     constructor() ERC20("Polyplus", "PLP") {
         exposition = 0;
         netAssetValue = 1;
-        isInit = false;
-    }
-    modifier isInitialized() {
-        require(
-            isInit == true,
-            "Not initialized, first you have to set GMX controller"
-        );
-        _;
     }
 
     // ::::::::::::: HANDLING TOKEN LISTS ACCEPTED ::::::::::::: //
@@ -78,36 +74,26 @@ contract MyVault is Ownable, ERC20 {
         tokenAccepted[tokenAddress] = true;
         emit NewTokenAdded(tokenAddress);
     }
-
     function removeToken(address tokenAddress) external onlyOwner {
         require(tokenAccepted[tokenAddress], "Token not yet added");
         tokenAccepted[tokenAddress] = false;
         emit TokenRemoved(tokenAddress);
     }
-
     function isAccepted(address tokenAddress) external view returns (bool) {
         return tokenAccepted[tokenAddress];
     }
 
-    // ::::::::::::: GMX CONTROLLER ADN FEES::::::::::::: //
+    // ::::::::::::: GMX CONTROLLER AND FEES::::::::::::: //
+
     /// @notice function that sets the exposition of the contract (Long Short or Neutral and rebalance assets accordingly)
     /// @dev only the owner can call this function
     /// @param _addr address of the controller to add
     function setGMX_controller(address _addr) external onlyOwner {
         GMX_controller = _addr;
-        isInit = true;
     }
-
     function getGMX_controller() public view returns (address) {
         return GMX_controller;
     }
-
-    // function setFees(uint8 _fees) external onlyOwner {
-    //     fees = _fees;
-    // }
-    // function getFees() public returns(uint8) {
-    //     return fees;
-    // }
 
     // ::::::::::::: STRATEGY EXPOSITION AND GLOBAL TX ::::::::::::: //
 
@@ -127,11 +113,9 @@ contract MyVault is Ownable, ERC20 {
         exposition = _exposition;
         emit expoEvent(block.timestamp, oldexposition, exposition);
     }
-
     function getExposition() external view returns (uint8) {
         return exposition;
     }
-
     function openPosition() external payable onlyOwner {
         bool isLong = (exposition == 1 ? true : false);
         IERC20(USDC).approve(
@@ -143,19 +127,11 @@ contract MyVault is Ownable, ERC20 {
             isLong
         );
     }
-
-    // function liquidatePositions() external payable onlyOwner {
-    //     bool isLong = (exposition == 1 ? true : false);
-    //     IGMXController(GMX_controller).liquidatePosition{value: msg.value}(
-    //         isLong
-    //     );
-    // }
     function liquidateLongPositions() external payable onlyOwner {
         IGMXController(GMX_controller).liquidatePosition{value: msg.value}(
             true
         );
     }
-
     function liquidateShortPositions() external payable onlyOwner {
         IGMXController(GMX_controller).liquidatePosition{value: msg.value}(
             false
@@ -163,11 +139,10 @@ contract MyVault is Ownable, ERC20 {
     }
 
     // ::::::::::::: NET ASSET VALUE OF THE FUNDS ::::::::::::: //
-    //NOT READY
+   
     function updateNetAssetValue() external onlyOwner {
         _updateNAV();
     }
-
     //decimals 10**30
     function _updateNAV() private {
         uint256 oldNAV = netAssetValue;
@@ -208,24 +183,21 @@ contract MyVault is Ownable, ERC20 {
             this.totalSupply()
         );
     }
-
     function getNetAssetValue() external view returns (uint256) {
         return netAssetValue;
     }
 
     // ::::::::::::: USER INTERFACE ::::::::::::: //
 
-    /// @notice function for depositing ana ccepted token on the vault
-    /// token address to deposit [to implement later]
+    /// @notice Function that handles the deposit of fund in USDC and sent back PLP token 
+    /// @dev take USDC and send back PLP according to current vault value and price per share;
+    /// @param tokenAddress USDC address only for the moment, but keeping the possibility to add other token
+    /// @param _amount amount of USDC decimals 10**6
     function deposit(address tokenAddress, uint256 _amount) external payable {
         require(tokenAccepted[tokenAddress], "Token not yet supported");
         require(_amount > 0, "Amount to deposit is mandatory");
-        // require(msg.value > ,"");
         uint256 amountToken = _amount - _amount / 100; //1% entry fees paid to GMX [0.1% entry fees + 0.8% swap fees]
         uint256 amountPLPToken;
-        console.log("Deposit");
-        console.log("Amount :", _amount);
-        console.log("Nav before operation :", netAssetValue);
         if (this.totalSupply() == 0) {
             amountPLPToken = _amount * (10**12); //10**18 / 10**6 decimals PLP / decimals USDC
         } else {
@@ -239,10 +211,6 @@ contract MyVault is Ownable, ERC20 {
                     this.totalSupply()) / netAssetValue); //10**30 decimals net asset value / 10**6 USDC
             }
         }
-        console.log("Nav updated:", netAssetValue);
-        console.log("TS :", this.totalSupply());
-        console.log("PLP :", amountPLPToken);
-        console.log("Amount token :", amountToken);
         _mint(msg.sender, amountPLPToken);
         IERC20(tokenAddress).transferFrom(msg.sender, address(this), _amount);
         IERC20(tokenAddress).approve(GMX_controller, _amount);
@@ -266,6 +234,10 @@ contract MyVault is Ownable, ERC20 {
         );
     }
 
+    /// @notice Function to withdraw funds from the vault
+    /// @notice Function that handles the withdraw of fund
+    /// @dev take PLP and send back USDC according to current price per share;
+    /// @param _amount amount of PLP decimals 10**18
     function withdraw(uint256 _amount) external payable {
         require(_amount > 0);
         require(
@@ -273,20 +245,13 @@ contract MyVault is Ownable, ERC20 {
             "Surprisingly you cannot withdraw token you have not bought"
         );
         bool isLong = (exposition == 1 ? true : false);
-        console.log("Withdraw");
-        console.log("Amount :", _amount);
-        console.log("Nav before update:", netAssetValue);
         _updateNAV();
-        console.log("Nav :", netAssetValue);
-        console.log("TS :", this.totalSupply());
         uint256 preop_supply = this.totalSupply();
         _burn(msg.sender, _amount);
         
         if (exposition == 0) {
-            console.log("retrait :", (10**6*_amount *netAssetValue)/(preop_supply*10**30));
             IERC20(USDC).transfer(msg.sender,(10**6*_amount *netAssetValue)/(preop_supply*10**30));
         } else {
-            console.log("retrait :", (99*10**4*_amount *netAssetValue)/(preop_supply*10**30));
             IGMXController(GMX_controller).decreasePosition{value: msg.value}(
                 msg.sender,
                 (99*10**4*_amount *netAssetValue)/(preop_supply*10**30), // [decimals USDC] * (#PLP / [decimals PLP]) * (NAV / [decimals NAV]) * ([decimals TS] / TS)) | 99% pour prendre en compte l'effet dillutif des frais GMX à la sortie

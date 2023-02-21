@@ -14,7 +14,7 @@ const Header = () => {
       alignItems={"center"}
       justifyContent="space-between"
     >
-      {/* Logo et nom */}
+
       <Flex>
         <Flex w="65px" fontSize={"2xl"}>
           <Image objectFit="cover" src="./logoFun.png" alt="Logo" />

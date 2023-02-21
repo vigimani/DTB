@@ -10,9 +10,9 @@ const { ethers } = require("hardhat");
 const depositAmount = ethers.utils.parseUnits("1000", "6");
 
 const openpos = async function () {
-  const PROVIDER = new ethers.providers.JsonRpcProvider(
-    "https://arb-mainnet.g.alchemy.com/v2/C_KkBkd2w9DlkAgvtdHSRpj1-5VKDKip"
-  );
+  // const PROVIDER = new ethers.providers.JsonRpcProvider(
+  //   "https://arb-mainnet.g.alchemy.com/v2/"
+  // );
   deployer = new ethers.Wallet(process.env.PK_ARB, PROVIDER);
   USDC = await ethers.getContractAt(ABIS.ERC20, ADDRESS.USDC, deployer);
   WETH = await ethers.getContractAt(ABIS.ERC20, ADDRESS.WETH, deployer);
@@ -106,9 +106,9 @@ const openpos = async function () {
 };
 
 const closepos = async function () {
-  const PROVIDER = new ethers.providers.JsonRpcProvider(
-    "https://arb-mainnet.g.alchemy.com/v2/C_KkBkd2w9DlkAgvtdHSRpj1-5VKDKip"
-  );
+  // const PROVIDER = new ethers.providers.JsonRpcProvider(
+  //   "https://arb-mainnet.g.alchemy.com/v2/"
+  // );
   deployer = new ethers.Wallet(process.env.PK_ARB, PROVIDER);
   USDC = await ethers.getContractAt(ABIS.ERC20, ADDRESS.USDC, deployer);
   WETH = await ethers.getContractAt(ABIS.ERC20, ADDRESS.WETH, deployer);

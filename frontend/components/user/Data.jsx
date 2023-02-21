@@ -40,7 +40,7 @@ export default function Data() {
       .then((res) => {
         // let price = (res[ADDRESS.WETH])
         let priceformat = parseInt(res[ADDRESS.WETH]) / 10 ** 30;
-        console.log(priceformat);
+        // console.log(priceformat);
         setPrices(priceformat);
       })
       .catch((e) => console.log(e))

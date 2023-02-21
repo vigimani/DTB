@@ -1,7 +1,7 @@
 self.__FONT_LOADER_MANIFEST={
   "pages": {
-    "/": [],
-    "/admin": []
+    "/admin": [],
+    "/": []
   },
   "app": {}
 }

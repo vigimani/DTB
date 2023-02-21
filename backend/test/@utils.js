@@ -53,7 +53,6 @@ const PositionInfo = async (GMX_ctrlerContract) => {
   };
   return data;
 };
-
 const UserInfo = async (vaultContract, USDCcontract, ...args) => {
   usersData = [args.length];
   totalsupply = parseInt((await vaultContract.totalSupply()).toString());
@@ -128,4 +127,5 @@ module.exports = {
   VaultInfo,
   WaitingPositionsLength,
   getData,
+  WaitingPositionsStart,
 };

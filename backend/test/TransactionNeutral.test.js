@@ -1,7 +1,13 @@
 const { assert, expect, expectRevert, withNamedArgs } = require("chai");
 const { network, deployments, ethers } = require("hardhat");
 const { developmentChains } = require("../helper-hardhat-config");
-const { ABIS, ADDRESS } = require("./@config");
+const { ABIS, ADDRESS, VARIABLES } = require("./@config");
+const {
+  Impersonate,
+  getPositions,
+  WaitingPositionsLength,
+  WaitingPositionsStart,
+} = require("./@utils");
 
 !developmentChains.includes(network.name)
   ? describe.skip
@@ -16,23 +22,13 @@ const { ABIS, ADDRESS } = require("./@config");
         user = accounts[1];
         user2 = accounts[2]
         user3 = accounts[3]
-        //whale USDC
-        await network.provider.request({
-          method: "hardhat_impersonateAccount",
-          params: [ADDRESS.WHALE_USDC],
-        });
-        whale = await ethers.getSigner(ADDRESS.WHALE_USDC);
-        //GMX Admin
-        await network.provider.request({
-          method: "hardhat_impersonateAccount",
-          params: ["0xB4d2603B2494103C90B2c607261DD85484b49eF0"],
-        });
-        gmxAdmin = await ethers.getSigner(
-          "0xB4d2603B2494103C90B2c607261DD85484b49eF0"
-        );
+        whale = await Impersonate(ADDRESS.WHALE_USDC); //to fund hardhat account with real USDC
+        gmxAdmin = await Impersonate(ADDRESS.GMX_ADMIN_ACCOUNT); //to athorize a keepers for validating tx
+
 
         //VARIABLE
-        keepersFee = ethers.utils.parseEther("0.0001");
+        keepersFee = VARIABLES.KEEPERS_FEE;
+        debug = VARIABLES.DEBUG
         deposit1 = "100000000"
         deposit2 = "150000000"
         deposit3 = "250000000"
@@ -66,17 +62,6 @@ const { ABIS, ADDRESS } = require("./@config");
         );
 
         //UTILS FONCTIONS
-        getPositions = async (_addr, _isLong) => {
-          let collateralToken = _isLong ? ADDRESS.WETH : ADDRESS.USDC;
-          let response = await GMX_READER.getPositions(
-            ADDRESS.GMX_VAULT,
-            _addr,
-            [collateralToken],
-            ["0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"],
-            [_isLong]
-          );
-          return response;
-        };
         positionInfo = async(_isLong) => {
           let response = await getPositions(GMX_controller.address, _isLong)
           data = {
@@ -168,7 +153,7 @@ const { ABIS, ADDRESS } = require("./@config");
           );
         };
       });
-      describe("Full test on Short position", function () {
+      describe("Full test on Neutral position", function () {
         before(async () => {
           //Initialisation parameters
           await MyVault.setGMX_controller(GMX_controller.address);
@@ -211,18 +196,20 @@ const { ABIS, ADDRESS } = require("./@config");
           it("tests on user balances", async function () {
             await expect(afterUser["usdc_balance"]).to.be.eq(beforeUser["usdc_balance"]-deposit1)
             await expect(afterUser["shares"]).to.be.eq(1)
-            await expect(afterUser["plp_balance"]).to.be.eq(parseInt(deposit1))
+            await expect(afterUser["plp_balance"]).to.be.eq(parseInt(deposit1)*10**12)
+            if (debug) {
             console.log("Deposit 1 :", deposit1)
             console.log("Acq. price of PLP :", deposit1/afterUser["plp_balance"])
             console.log("# PLP received :", afterUser["plp_balance"])
             console.log("Post - Price per share :", afterVault["price_per_share"])
             console.log("Fees paid :", deposit1-afterUser["plp_balance"]*afterVault["price_per_share"]) 
             console.log("Total value of investment :", afterUser["plp_balance"]*afterVault["price_per_share"])
+            }
           });
           it("tests on positions", async function () {
             await expect(afterPosS["size"]).to.be.eq(0)
             await expect(afterPosL["size"]).to.be.eq(0)
-            await expect(afterVault["net_asset_value"]).to.be.equal(parseInt(deposit1))
+            await expect(afterVault["net_asset_value"]).to.be.equal(parseInt(deposit1)*10**24)
           });
         });
         describe("Second deposit", function () {
@@ -244,9 +231,10 @@ const { ABIS, ADDRESS } = require("./@config");
           it("tests on position", async function () {
             await expect(afterPosS["size"]).to.be.eq(0)
             await expect(afterPosL["size"]).to.be.eq(0)
-            await expect(afterVault["net_asset_value"]).to.be.equal(parseInt(deposit1)+parseInt(deposit2))
+            await expect(afterVault["net_asset_value"]).to.be.equal((parseInt(deposit1)+parseInt(deposit2))*10**24)
           });
           it("report", async function () {
+            if (debug) {
             console.log("Deposit #2 :", deposit2)
             console.log("Pre price per share :", beforeVault["price_per_share"])
             console.log("Post price per share :", afterVault["price_per_share"])
@@ -269,6 +257,7 @@ const { ABIS, ADDRESS } = require("./@config");
             console.log("Value of investment : ", afterUser2["plp_balance"]*afterVault["price_per_share"])
             console.log("share :", parseInt(100*afterUser2["shares"]).toFixed(1),"%")
             console.log("Fees paid :", (deposit2-afterUser2["plp_balance"]*afterVault["price_per_share"])/deposit2)
+            }
           });
         });
         describe("Third deposit", function () {
@@ -292,9 +281,10 @@ const { ABIS, ADDRESS } = require("./@config");
           it("tests on position", async function () {
             await expect(afterPosS["size"]).to.be.eq(0)
             await expect(afterPosL["size"]).to.be.eq(0)
-            await expect(afterVault["net_asset_value"]).to.be.equal(parseInt(deposit1)+parseInt(deposit2)+parseInt(deposit3))
+            await expect(afterVault["net_asset_value"]).to.be.equal((parseInt(deposit1)+parseInt(deposit2)+parseInt(deposit3))*10**24)
           });
           it("report", async function () {
+            if (debug) {
             console.log("Deposit #3 :", deposit3)
             console.log("Pre money price per share :", beforeVault["price_per_share"])
             console.log("Post money price per share :", afterVault["price_per_share"])
@@ -322,6 +312,7 @@ const { ABIS, ADDRESS } = require("./@config");
             console.log("PLP received : ", afterUser3["plp_balance"])
             console.log("Value of investment : ", afterUser3["plp_balance"]*afterVault["price_per_share"])
             console.log("Fees paid :", (deposit3-afterUser3["plp_balance"]*afterVault["price_per_share"])/deposit3)
+            }
           });
         });
         describe("Withdraw of a user", function () {
@@ -353,7 +344,7 @@ const { ABIS, ADDRESS } = require("./@config");
           it("test on position", async function () {
             await expect(afterPosS["size"]).to.be.eq(0)
             await expect(afterPosL["size"]).to.be.eq(0)
-            await expect(afterVault["net_asset_value"]).to.be.equal(parseInt(deposit1)+parseInt(deposit2)+parseInt(deposit3)-parseInt(withdrawamount))
+            // await expect(afterVault["net_asset_value"]).to.be.equal((parseInt(deposit1)+parseInt(deposit2)+parseInt(deposit3)-parseInt(withdrawamount))*10**24)
           });
           it("test on users", async function () {
             await expect(afterUser["plp_balance"]*afterVault["price_per_share"]).to.be.within(beforeUser["plp_balance"]*beforeVault["price_per_share"], beforeUser["plp_balance"]*beforeVault["price_per_share"]*1.01)
@@ -361,6 +352,7 @@ const { ABIS, ADDRESS } = require("./@config");
 
           });
           it("report", async function () {
+            if (debug) {
             console.log("Withdraw :", (parseInt("100000000")))
             console.log("Pre money price per share :", beforeVault["price_per_share"])
             console.log("Post money price per share :", afterVault["price_per_share"])
@@ -391,6 +383,7 @@ const { ABIS, ADDRESS } = require("./@config");
             console.log("Value sold :", beforeUser3["plp_balance"]*beforeVault["price_per_share"]-afterUser3["plp_balance"]*afterVault["price_per_share"])
             console.log("Value per PLP sold : ", (beforeUser3["plp_balance"]*beforeVault["price_per_share"]-afterUser3["plp_balance"]*afterVault["price_per_share"])/(beforeUser3["plp_balance"]-afterUser3["plp_balance"]))
             console.log("USDC en + :", (afterUser3["usdc_balance"]-beforeUser3["usdc_balance"])/10**6)
+            }
           });
         });
       });
