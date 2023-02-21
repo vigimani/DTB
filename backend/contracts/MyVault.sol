@@ -1,14 +1,21 @@
 //SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
-import "./../node_modules/@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "./../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./../node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "./../node_modules/@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
-import "./../node_modules/@uniswap/v3-periphery/contracts/interfaces/IQuoter.sol";
 import "./../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "./../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./interface/IGMXController.sol";
-import "./interface/gmx/IGMXVault.sol";
+
+interface IGMXController {
+    function increasePosition(uint256 tokenAmount, bool isLong) external payable ; 
+    function decreasePosition(address _to, uint256 tokenAmount, bool isLong) external payable ; 
+    function liquidatePosition(bool isLong) external payable ; 
+}
+
+interface IGMXVault {
+    function getPosition(address _account, address _collateralToken, address _indexToken, bool _isLong) external returns (uint256 size, uint256 collateral, uint256 averagePrice, uint256 entryFundingRate, uint256 reserveAmount, uint256 realisedPnl, bool realisedPnLPositive, uint256 lastIncreasedTime);
+    function getMaxPrice(address _token) external view returns (uint256);
+    function getMinPrice(address _token) external view returns (uint256);
+    function getPositionDelta(address _account, address _collateralToken, address _indexToken, bool _isLong) external returns (bool hasprofit, uint256 lastIncreasedTime);
+}
 
 /// @title Vault contract to receive funds and rebalance on GMX thanks to controller according to exposition strategy
 /// @author Victor Gillibert

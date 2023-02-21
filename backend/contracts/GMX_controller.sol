@@ -2,10 +2,25 @@
 pragma solidity 0.8.17;
 import "./../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-import "./interface/gmx/IGMXRouter.sol";
-import "./interface/gmx/IGMXPositionRouter.sol";
-import "./interface/gmx/IGMXVault.sol";
-import "./interface/gmx/IGMXReader.sol";
+
+interface IGMXReader {
+    function getPositions(address _vault, address _account, address[] memory _collateralTokens, address[] memory _indexTokens, bool[] memory _isLong) external ;
+}
+interface IGMXVault {
+    function getPosition(address _account, address _collateralToken, address _indexToken, bool _isLong) external returns (uint256 size, uint256 collateral, uint256 averagePrice, uint256 entryFundingRate, uint256 reserveAmount, uint256 realisedPnl, bool realisedPnLPositive, uint256 lastIncreasedTime);
+    function getMaxPrice(address _token) external view returns (uint256);
+    function getMinPrice(address _token) external view returns (uint256);
+    function getPositionDelta(address _account, address _collateralToken, address _indexToken, bool _isLong) external returns (bool hasprofit, uint256 lastIncreasedTime);
+}
+interface IGMXRouter {
+    function approvePlugin(address _plugin) external;
+    function increasePosition(address _account, address _collateralToken, address _indexToken, uint256 _sizeDelta, bool _isLong) external payable ;
+}
+interface IGMXPositionRouter {
+    function createIncreasePosition(address[] memory _path, address _indexToken, uint256 _amountIn, uint256 _minOut, uint256 _sizeDelta, bool _isLong, uint256 _acceptablePrice, uint256 _executionFee, bytes32 _referralCode, address _callbackTarget) external payable;
+    function createDecreasePosition(address[] memory _path, address _indexToken, uint256 _collateralDelta, uint256 _sizeDelta, bool _isLong, address _receiver, uint256 _acceptablePrice, uint256 _minOut, uint256 _executionFee, bool _withdrawETH, address _callbackTarget) external payable;
+    function minExecutionFee() external view returns (uint256);
+}
 
 
 /// @title Contract controlled by the vault that interacts with GMX perpetual exchange on Arbitrum network 
