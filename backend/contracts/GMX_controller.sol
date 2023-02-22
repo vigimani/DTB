@@ -32,6 +32,7 @@ interface IGMXPositionRouter {
 /// @dev See if oracle price works better on mainnet
 /// @custom:experimental This is an experimental contract.
 contract GMX_controller is Ownable {
+    
     address public gmxVault =0x489ee077994B6658eAfA855C308275EAd8097C4A;
     address public gmxRouter =0xaBBc5F99639c9B6bCb58544ddf04EFA6802F4064;
     address public gmxPositionRouter =0xb87a436B93fFE9D75c5cFA7bAcFff96430b09868;

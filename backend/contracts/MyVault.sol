@@ -27,6 +27,7 @@ interface IGMXVault {
 /// @dev Allow other token to be added
 /// @custom:experimental This is an experimental contract.
 contract MyVault is Ownable, ERC20, ReentrancyGuard {
+    
     // ::::::::::::: VARIABLE AND EVENT ::::::::::::: //
     address public GMX_controller;
     address public WETH = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1;

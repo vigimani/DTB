@@ -44,8 +44,12 @@ Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice
 ![alt text](https://github.com/vigimani/DTB/blob/main/1.png)
 ![alt text](https://github.com/vigimani/DTB/blob/main/2.png)
 
-## Useful links
-* [Loom video presentation](https://www.loom.com/share/ca6deeadc1954c4985c00cbd6281de38)
-* Etherscan contracts address on Goerli:
-    - [Vault PLP](https://goerli.etherscan.io/address/0x93bE4BEA16A5bB42B898f8b518b44f457b9aBC7D)
-    - [Controller GMX](https://goerli.etherscan.io/address/0xC443C22FCd4cAecf4bcb9cC3fFBf5b10121F3C96)
+## Useful links and refs
+[Loom video presentation](https://www.loom.com/share/ca6deeadc1954c4985c00cbd6281de38)
+
+Contracts deployed
+| Contract          | Address                                    |
+| ----------------- | ------------------------------------------ |
+| [Vault PLP](https://goerli.etherscan.io/address/0x93bE4BEA16A5bB42B898f8b518b44f457b9aBC7D)    | 0x93bE4BEA16A5bB42B898f8b518b44f457b9aBC7D |
+| [Controller GMX](https://goerli.etherscan.io/address/0xC443C22FCd4cAecf4bcb9cC3fFBf5b10121F3C96)     | 0xC443C22FCd4cAecf4bcb9cC3fFBf5b10121F3C96 |
+
