@@ -1,9 +1,9 @@
 //SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
-import "./../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./../node_modules/@openzeppelin/contracts/access/Ownable.sol";
-import "./../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "./../node_modules/@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 
 interface IGMXController {
@@ -20,7 +20,7 @@ interface IGMXVault {
 }
 
 /// @title Vault contract to receive funds and rebalance on GMX thanks to controller according to exposition strategy
-/// @author Victor Gillibert
+/// @author Vigimani
 /// @notice It works as a fund manager, send token as shares of the vault according to the value in it, send back USDC when token are given back
 /// @dev Improvement to do :
 /// @dev Add fees to compensate for transaction fees paid when position need to be modified

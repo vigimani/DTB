@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
-import "./../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./../node_modules/@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 interface IGMXReader {
     function getPositions(address _vault, address _account, address[] memory _collateralTokens, address[] memory _indexTokens, bool[] memory _isLong) external ;
@@ -24,7 +24,7 @@ interface IGMXPositionRouter {
 
 
 /// @title Contract controlled by the vault that interacts with GMX perpetual exchange on Arbitrum network 
-/// @author Victor Gillibert
+/// @author Vigimani
 /// @notice This contract should work with any vault on Arbitrum network
 /// @dev Improvement to do :
 /// @dev Allow not only USDC and create functions to handle tokens authorized 
