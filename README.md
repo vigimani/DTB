@@ -4,18 +4,32 @@ PLP est une vault d'investissement qui permet à ses utilisateurs de bénéficie
 
 Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice 
 
+-----------------
+
 ## Fonctionnal scheme
 ![alt text](https://github.com/vigimani/DTB/blob/main/schema.png)
 
 
- Gestionnaire de paquet :
- * __yarn__ 
+## Stack technique used
+ * __Yarn__ @1.22.19
 
  Backend : 
- * __Solidity__
- * __Hardhat__ : plugins used -> __Hardhat-deploy__, __hardhat-docgen__, __hardhat-ethernal__, __hardhat-gas-reporter__
+ * __Solidity__ v0.8.17
+ * __Hardhat__ : 
+ `* __hardhat-deploy__ `
+ `* __hardhat-docgen__`
+ `* __hardhat-ethernal__`
+ `* __hardhat-gas-reporter__`
  * __OpenZeppelin__ 
- * Testing : __Chai__, __Mocha__
+ `* __Ownable.sol__`
+  `* __ERC20.sol__`
+   `* ReentrancyGuard.sol__`
+
+ * Testing : 
+ * __Chai__
+ * __Mocha__
+ * tested on arbitrum fork
+
  
  Frontend :
  * __NextJS__ for react development
@@ -25,7 +39,7 @@ Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice
  * __Wagmi__
  * __Apexcharts__
 
------------------
+
 
 ## Visuals of the Dapp
 ![alt text](https://github.com/vigimani/DTB/blob/main/1.png)
