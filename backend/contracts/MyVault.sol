@@ -3,6 +3,8 @@ pragma solidity 0.8.17;
 import "./../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "./../node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "./../node_modules/@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
 
 interface IGMXController {
     function increasePosition(uint256 tokenAmount, bool isLong) external payable ; 
@@ -23,9 +25,8 @@ interface IGMXVault {
 /// @dev Improvement to do :
 /// @dev Add fees to compensate for transaction fees paid when position need to be modified
 /// @dev Allow other token to be added
-/// @dev Add non reentrantGard from OZ
 /// @custom:experimental This is an experimental contract.
-contract MyVault is Ownable, ERC20 {
+contract MyVault is Ownable, ERC20, ReentrancyGuard {
     // ::::::::::::: VARIABLE AND EVENT ::::::::::::: //
     address public GMX_controller;
     address public WETH = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1;
@@ -200,7 +201,7 @@ contract MyVault is Ownable, ERC20 {
     /// @dev take USDC and send back PLP according to current vault value and price per share;
     /// @param tokenAddress USDC address only for the moment, but keeping the possibility to add other token
     /// @param _amount amount of USDC decimals 10**6
-    function deposit(address tokenAddress, uint256 _amount) external payable {
+    function deposit(address tokenAddress, uint256 _amount) external payable nonReentrant {
         require(tokenAccepted[tokenAddress], "Token not yet supported");
         require(_amount > 0, "Amount to deposit is mandatory");
         uint256 amountToken = _amount - _amount / 100; //1% entry fees paid to GMX [0.1% entry fees + 0.8% swap fees]
@@ -245,7 +246,7 @@ contract MyVault is Ownable, ERC20 {
     /// @notice Function that handles the withdraw of fund
     /// @dev take PLP and send back USDC according to current price per share;
     /// @param _amount amount of PLP decimals 10**18
-    function withdraw(uint256 _amount) external payable {
+    function withdraw(uint256 _amount) external payable nonReentrant {
         require(_amount > 0);
         require(
             this.balanceOf(msg.sender) >= _amount,

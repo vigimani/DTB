@@ -15,7 +15,7 @@ describe("GMX controller unit tests", () => {
     keepersFee = VARIABLES.KEEPERS_FEE
     debug = VARIABLES.DEBUG
     // CONTRACTS
-    await deployments.fixture(["GMX_controller"]);
+    await deployments.fixture(["all"]);
     GMX_controller = await ethers.getContract("GMX_controller");
     USDC = await ethers.getContractAt(ABIS.ERC20, ADDRESS.USDC, deployer);
     WETH = await ethers.getContractAt(ABIS.ERC20, ADDRESS.WETH, deployer);

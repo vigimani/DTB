@@ -32,12 +32,9 @@ interface IGMXPositionRouter {
 /// @dev See if oracle price works better on mainnet
 /// @custom:experimental This is an experimental contract.
 contract GMX_controller is Ownable {
-    address public gmxVault =
-        address(0x489ee077994B6658eAfA855C308275EAd8097C4A);
-    address public gmxRouter =
-        address(0xaBBc5F99639c9B6bCb58544ddf04EFA6802F4064);
-    address public gmxPositionRouter =
-        address(0xb87a436B93fFE9D75c5cFA7bAcFff96430b09868);
+    address public gmxVault =0x489ee077994B6658eAfA855C308275EAd8097C4A;
+    address public gmxRouter =0xaBBc5F99639c9B6bCb58544ddf04EFA6802F4064;
+    address public gmxPositionRouter =0xb87a436B93fFE9D75c5cFA7bAcFff96430b09868;
     address public WETH = 0x82aF49447D8a07e3bd95BD0d56f35241523fBab1;
     address public USDC = 0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8;
     uint256 public GMXexecutionFee ;

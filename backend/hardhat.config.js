@@ -19,11 +19,6 @@ module.exports = {
         url: ARB_URL,
         // fromBlock: 62416900,
       }
-      // ,
-      // mining: {
-      //   auto: false,ETHERNAL_EMAIL=limaniscrow@protonmail.com ETHERNAL_PASSWORD=jUkR2rd3jzfxeuq yarn hardhat node
-      //   interval: 5000
-      // }
     },
     goerli: {
       url: `${process.env.ALCHEMY_GOERLI}`,

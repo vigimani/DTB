@@ -10,9 +10,8 @@ const { ABIS, ADDRESS } = require("./@config");
         accounts = await ethers.getSigners();
         deployer = accounts[0];
 
-        await deployments.fixture(["MyVault"]);
+        await deployments.fixture(["all"]);
         MyVault = await ethers.getContract("MyVault");
-        await deployments.fixture(["GMX_controller"]);
         GMX_controller = await ethers.getContract("GMX_controller");
       
         await MyVault.setGMX_controller(GMX_controller.address);

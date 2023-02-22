@@ -21,9 +21,8 @@ const { Impersonate, getPositions, WaitingPositionsLength} = require("./@utils")
         keepersFee = VARIABLES.KEEPERS_FEE;
 
         //CONTRACTS
-        await deployments.fixture(["MyVault"]);
+        await deployments.fixture(["all"]);
         MyVault = await ethers.getContract("MyVault");
-        await deployments.fixture(["GMX_controller"]);
         GMX_controller = await ethers.getContract("GMX_controller");
         USDC = await ethers.getContractAt(ABIS.ERC20, ADDRESS.USDC, deployer);
         WETH = await ethers.getContractAt(ABIS.ERC20, ADDRESS.WETH, deployer);
