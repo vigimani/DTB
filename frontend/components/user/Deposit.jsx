@@ -34,8 +34,6 @@ export default function Deposit({colortext, colorfond2}) {
       let depositAmountUSDC = ethers.utils
         .parseEther(depositAmount)
         .div(10 ** 12);
-        console.log(depositAmount)
-        console.log(depositAmountUSDC.toString())
       let fees = ethers.utils.parseEther("100");
       let usdc = await new ethers.Contract(ADDRESS.USDC, ABIS.ERC20, signer);
       let a = await usdc.approve(

@@ -82,7 +82,7 @@ export default function Mytransactions() {
           ((event.args[3] / 10 ** 12 / event.args[4]) * event.args[2]) /
             10 ** 12
         );
-        console.log(event.args[2].toString());
+        // console.log(event.args[2].toString());
         let tx = {
           id: event.transactionHash,
           transaction: false,

@@ -1,7 +1,7 @@
 import {
-  Button,
+  Image,
   Flex,
-  Input,
+  Box,
   InputGroup,
   InputLeftAddon,
   Icon,
@@ -22,7 +22,7 @@ import { ABIS, ADDRESS } from "../../utils/@config";
 import { ethers } from "ethers";
 import { useContractProvider } from "@/context/ContractContext";
 
-export default function Adminreader({expo, setExpo}) {
+export default function Adminreader({ expo, setExpo }) {
   const {
     totalsupply,
     shareprice,
@@ -40,7 +40,7 @@ export default function Adminreader({expo, setExpo}) {
     shortavgprice,
     shortdelta,
     shortleverage,
-    updateData
+    updateData,
   } = useContractProvider();
   const bgCard = useColorModeValue("white", "gray.600");
   const colortext = useColorModeValue("#594B7E", "white");
@@ -58,14 +58,33 @@ export default function Adminreader({expo, setExpo}) {
           bg={bgCard}
           color={colortext}
         >
+          <Text fontWeight={"bold"} fontSize={"2xl"}>
+            Vault
+          </Text>
           <Flex mt="1rem" flexDirection={"column"}>
-            <Button mb="1rem" onClick={() => updateData()}>
-              Update Data
-            </Button>
             <Text>PLP supply : {totalsupply}</Text>
             <Text>Share price : {shareprice}</Text>
             <Text>NAV : {navcalculated}</Text>
-            <Text>VAULT USDC : {vaultusdc}</Text>
+            <Text mb="1rem">VAULT USDC : {vaultusdc}</Text>
+            <Separator />
+
+              <Flex mt="1rem" maxHeight={"40px"}  w="100%">
+                <Flex>
+                  <Text fontWeight={"bold"} fontSize={"2xl"}>
+                    Positions on
+                  </Text>
+                </Flex>
+                <Flex>
+                  <Box boxSize="120px">
+                    <Image
+                      ml="1rem"
+                      // objectFit="cover"
+                      src="./GMXlogo.png"
+                    />
+                  </Box>
+              </Flex>
+            </Flex>
+
             <Flex mb="1rem" mt="1rem">
               <Flex w="50%" flexDirection={"column"}>
                 <Flex fontWeight={"bold"}>LONG</Flex>
@@ -89,6 +108,13 @@ export default function Adminreader({expo, setExpo}) {
               </Flex>
             </Flex>
             <Separator />
+            <Flex mt="1rem" maxHeight={"40px"}  w="100%">
+                <Flex>
+                  <Text fontWeight={"bold"} fontSize={"xl"}>
+                    Waiting positions to validate
+                  </Text>
+                </Flex>
+            </Flex>
             <Flex mt="1rem">Waiting Increase pos : {increasePosition}</Flex>
             <Flex>Waiting Decrease pos : {decreasePosition}</Flex>
           </Flex>

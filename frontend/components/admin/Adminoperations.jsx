@@ -85,9 +85,9 @@ import {
                   <Button mt="5px" onClick={() => liquidateshortpos()}>
                     Liquidate Short position
                   </Button>
-                  <Button mt="5px" onClick={() => updatenetassetvalue()}>
+                  {/* <Button mt="5px" onClick={() => updatenetassetvalue()}>
                     Update NAV
-                  </Button>
+                  </Button> */}
                   <Button mt="5px" onClick={() => exeincreasepos()}>
                     Execute Increase Positions
                   </Button>
