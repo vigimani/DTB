@@ -1,20 +1,9 @@
 import Head from "next/head";
 import {
-  Button,
   Flex,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  Icon,
-  RadioGroup,
-  Radio,
-  Stack,
-  Text,
-  Heading,
   Alert,
   AlertIcon,
   useColorModeValue,
-  useColorMode,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useContractProvider } from "@/context/ContractContext";

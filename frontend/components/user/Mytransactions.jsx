@@ -1,16 +1,8 @@
 import {
   Image,
   Flex,
-  Text,
   Box,
-  HStack,
-  Stack,
-  Switch,
-  Button,
   useColorModeValue,
-  useColorMode,
-  IconButton,
-  colorMode,
   Table,
   Thead,
   Tr,
@@ -36,8 +28,6 @@ export default function Mytransactions() {
 
   const [transactions, setTransactions] = useState([]);
   const [invested, setInvested] = useState(0);
-  const [shares, setShares] = useState(0);
-  const [value, setValue] = useState(0);
 
   useEffect(() => {
     updatetransactions();

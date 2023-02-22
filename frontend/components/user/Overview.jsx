@@ -3,14 +3,7 @@ import {
     Flex,
     Text,
     Box,
-    HStack,
-    Stack,
-    Switch,
-    Button,
     useColorModeValue,
-    useColorMode,
-    IconButton,
-    colorMode,
   } from "@chakra-ui/react";
   import Graph from "./Graph";
   

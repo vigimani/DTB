@@ -4,6 +4,8 @@ import Transactions from "./Transactions";
 export default function Adminevents({}) {
   const bgCard = useColorModeValue("white", "gray.600");
   const colortext = useColorModeValue("#594B7E", "white");
+
+  //A FINALISER
   return (
     <>
       {/* <Flex w="100%" direction="column">

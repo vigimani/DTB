@@ -2,22 +2,14 @@ import Head from "next/head";
 import {
   Text,
   Flex,
-  Heading,
   Alert,
   AlertIcon,
-  useBreakpointValue,
-  useColorModeValue,
-  Image,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useContractProvider } from "@/context/ContractContext";
 import Header from "@/components/header/Header";
 import Userlayout from "./../components/user/Userlayout";
-import { Main } from "next/document";
 import Footer from "../components/footer/Footer";
-import { useAccount, useBalance, useProvider, useSigner } from "wagmi";
+import { useAccount} from "wagmi";
 export default function Home() {
-  const { isOwner } = useContractProvider();
   const { address, isConnected } = useAccount();
   return (
     <>

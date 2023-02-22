@@ -13,20 +13,14 @@ import { numberWithSpaces } from "@/utils/utilsfunction";
 export default function Data() {
   const {
     totalsupply,
-    shareprice,
-    navcalculated,
     vaultusdc,
     longsize,
     longcollateral,
-    longdelta,
     longleverage,
     longavgprice,
-    increasePosition,
-    decreasePosition,
     shortsize,
     shortcollateral,
     shortavgprice,
-    shortdelta,
     shortleverage,
     expo,
   } = useContractProvider();
@@ -38,9 +32,7 @@ export default function Data() {
     await fetch("https://api.gmx.io/prices")
       .then((res) => res.json())
       .then((res) => {
-        // let price = (res[ADDRESS.WETH])
         let priceformat = parseInt(res[ADDRESS.WETH]) / 10 ** 30;
-        // console.log(priceformat);
         setPrices(priceformat);
       })
       .catch((e) => console.log(e))

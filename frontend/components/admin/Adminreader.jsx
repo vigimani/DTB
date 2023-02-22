@@ -74,7 +74,6 @@ export default function Adminreader({expo, setExpo}) {
                 <Flex>Delta : {longdelta}</Flex>
                 <Flex mb="5px">Leverage : {longleverage}</Flex>
               </Flex>
-
               <Flex
                 w="3px"
                 h="100%"

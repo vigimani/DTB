@@ -2,24 +2,9 @@ import {
   Image,
   Flex,
   Text,
-  Box,
-  HStack,
-  Stack,
-  Switch,
   Button,
-  useColorModeValue,
-  useColorMode,
-  IconButton,
-  colorMode,
-  Tab,
-  Tabs,
-  TabPanel,
-  TabPanels,
-  TabList,
   Input,
-  NumberInputField,
 } from "@chakra-ui/react";
-import Link from "next/link";
 import { useContractProvider } from "@/context/ContractContext";
 import { useState, useEffect } from "react";
 import { InfoIcon } from "@chakra-ui/icons";
@@ -28,7 +13,7 @@ import { useToast } from "@chakra-ui/react";
 import { ethers } from "ethers";
 import { ADDRESS, ABIS } from "../../utils/@config";
 import { numberWithSpaces } from "@/utils/utilsfunction";
-export default function Deposit({bgCard, colortext, colorfond2}) {
+export default function Deposit({colortext, colorfond2}) {
   const { usdcBalance, updateUsdcBalance, updatePlpBalance, signer, updateData } =
     useContractProvider();
   const toast = useToast();
@@ -113,8 +98,6 @@ export default function Deposit({bgCard, colortext, colorfond2}) {
           </Flex>
           <Flex ml="1rem" direction="column" h="100%">
             <Flex fontFamily={"Kanit"} >
-              {/* <Input value={depositAmount} w="100px" type="number" fontSize={"md"} h="32px" placeholder='0' borderColor={"transparent"} onChange={(e) => setDepositAmount(e.target.value)}/> */}
-
               <Input
                 w="100px"
                 type="number"
@@ -131,17 +114,6 @@ export default function Deposit({bgCard, colortext, colorfond2}) {
           </Flex>
         </Flex>
         <Flex p="5">
-          {/* <Button
-                          borderWidth={"1px"}
-                          borderColor={"#594B7E"}
-                          borderRadius="8px"
-                          fontFamily={"Kanit"}
-                          fontSize="2xs"
-                          h="30px"
-                          onClick={()=> setDepositAmount(usdcBalance)}
-                        >
-                          MAX
-                        </Button> */}
         </Flex>
       </Flex>
       <Flex mb="1rem" alignItems={"center"}>

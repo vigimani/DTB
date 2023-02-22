@@ -7,23 +7,19 @@ import { lineChartData, lineChartOptions } from "../../pages/api/data";
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 class Graph extends React.Component {
-
   constructor(props) {
     super(props);
-
     this.state = {
       chartData: [],
       chartOptions: {},
     };
   }
-
   componentDidMount() {
     this.setState({
       chartData: lineChartData,
       chartOptions: lineChartOptions,
     });
   }
-
   render() {
     return (
       <>

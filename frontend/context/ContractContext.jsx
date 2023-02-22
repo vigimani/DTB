@@ -3,8 +3,6 @@ import { ethers } from "ethers";
 import { useAccount, useProvider, useSigner } from "wagmi";
 import { useToast } from "@chakra-ui/react";
 import { ABIS, ADDRESS } from "./../utils/@config";
-import { numberWithSpaces, timestampconvert } from "@/utils/utilsfunction";
-
 
 const ContractContext = React.createContext(null);
 export function useContractProvider() {

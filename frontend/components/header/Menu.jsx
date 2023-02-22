@@ -12,7 +12,6 @@ import { useRouter } from "next/router";
 import { FaWallet } from "react-icons/fa";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { useContractProvider } from "@/context/ContractContext";
-import { useState, useEffect } from "react";
 export default function Menu() {
   const router = useRouter();
   const { isOwner, isConnected } = useContractProvider();

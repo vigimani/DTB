@@ -2,24 +2,9 @@ import {
     Image,
     Flex,
     Text,
-    Box,
-    HStack,
-    Stack,
-    Switch,
     Button,
-    useColorModeValue,
-    useColorMode,
-    IconButton,
-    colorMode,
-    Tab,
-    Tabs,
-    TabPanel,
-    TabPanels,
-    TabList,
     Input,
-    NumberInputField,
   } from "@chakra-ui/react";
-  import Link from "next/link";
   import { useContractProvider } from "@/context/ContractContext";
   import { useState, useEffect } from "react";
   import { InfoIcon } from "@chakra-ui/icons";
@@ -93,8 +78,6 @@ import {
                       </Flex>
                       <Flex ml="1rem" direction="column" h="100%" >
                         <Flex fontFamily={"Kanit"}>
-                        {/* <Input value={depositAmount} w="100px" type="number" fontSize={"md"} h="32px" placeholder='0' borderColor={"transparent"} onChange={(e) => setDepositAmount(e.target.value)}/> */}
-
                         <Input w="100px" type="number" fontSize={"md"} placeholder='0' borderColor={colorfond2} onChange={(e) => setWithdrawAmount(e.target.value)}/>
                         <Flex ml="1rem" alignSelf={"center"}>PLP</Flex>
                         </Flex>
