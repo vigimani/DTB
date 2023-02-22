@@ -4,13 +4,19 @@ PLP est une vault d'investissement qui permet à ses utilisateurs de bénéficie
 
 Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice 
 
+## Contents 
+- [Functional overview](#fonctionnal-overview)
+- [Technologies](#technologies)
+- [Links and sources](#links-and-sources)
+- [Visuals and demo](#visuals-and-demo)
+
 -----------------
 
-## Fonctionnal scheme
+## Fonctionnal overview
 ![alt text](https://github.com/vigimani/DTB/blob/main/schema.png)
 
 
-## Stack technique used
+## Technologies
  * __Yarn__ @1.22.19
 
  ### Backend : 
@@ -40,12 +46,7 @@ Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice
  * __Apexcharts__
 
 
-## Visuals of the Dapp
-![alt text](https://github.com/vigimani/DTB/blob/main/1.png)
-![alt text](https://github.com/vigimani/DTB/blob/main/2.png)
-
-## Useful links and refs
-[Loom video presentation of the dapp](https://www.loom.com/share/ca6deeadc1954c4985c00cbd6281de38)
+## Links and sources
 
 ### Contracts deployed
 | Contract          | Address on Goerli                                    |
@@ -66,3 +67,8 @@ Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice
 [GMX app](https://app.gmx.io/#/dashboard)
 [GMX Techincal Overview](https://gmx-io.notion.site/GMX-Technical-Overview-47fc5ed832e243afb9e97e8a4a036353)
 
+## Visuals and demo
+[Loom video presentation of the dapp](https://www.loom.com/share/ca6deeadc1954c4985c00cbd6281de38)
+
+![alt text](https://github.com/vigimani/DTB/blob/main/1.png)
+![alt text](https://github.com/vigimani/DTB/blob/main/2.png)
