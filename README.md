@@ -3,17 +3,35 @@
 PLP est une vault d'investissement qui permet à ses utilisateurs de bénéficier des analyses d'un algoritme de trading. Dans cette vault les utilisateurs peuvent investir en USDC, ils reçoivent en échange des actions (un token le PLP) représentant un pourcentage de cette vault. En parallèle leur investissement est placé sur GMX et tradé en fonction de nombreux indicateurs. Lorsqu'ils souhaitent retirer leur investissement, un calcul de la valeur de la vault se fait et liquide en conséquence une partie de la position sur GMX pour le renvoyer à l'utilisateur.
 
 Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice 
- __Hardhat__ backend 
+
+## Fonctionnal scheme
+![alt text](https://github.com/vigimani/DTB/blob/main/schema.png)
+
+
+ Gestionnaire de paquet :
+ * __yarn__ 
+
+ Backend : 
+ * __Solidity__
+ * __Hardhat__ : plugins used -> __Hardhat-deploy__, __hardhat-docgen__, __hardhat-ethernal__, __hardhat-gas-reporter__
+ * __OpenZeppelin__ 
+ * Testing : __Chai__, __Mocha__
  
- Frontend __NextJS pour le développement en react__ . 
+ Frontend :
+ * __NextJS__ for react development
+ * __Chakra UI__
+ * __ethers.js__
+ *  __Rainbowkit__
+ * __Wagmi__
+ * __Apexcharts__
 
 -----------------
 
-## Visuels
+## Visuals of the Dapp
 ![alt text](https://github.com/vigimani/DTB/blob/main/1.png)
 
 ## Useful links
 * [Loom video presentation](https://www.loom.com/share/ca6deeadc1954c4985c00cbd6281de38)
-* Addresses etherscan des contrats sur Goerli:
+* Etherscan contracts address on Goerli:
     - [Vault PLP](https://goerli.etherscan.io/address/0x93bE4BEA16A5bB42B898f8b518b44f457b9aBC7D)
     - [Controller GMX](https://goerli.etherscan.io/address/0xC443C22FCd4cAecf4bcb9cC3fFBf5b10121F3C96)
