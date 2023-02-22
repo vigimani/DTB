@@ -13,7 +13,7 @@ Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice
 ## Stack technique used
  * __Yarn__ @1.22.19
 
- Backend : 
+ ### Backend : 
  * __Solidity__ v0.8.17
  * __Hardhat__ : 
     * __hardhat-deploy__ 
@@ -31,7 +31,7 @@ Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice
     * tested on arbitrum fork
 
  
- Frontend :
+ ### Frontend :
  * __NextJS__ for react development
  * __Chakra UI__
  * __ethers.js__
