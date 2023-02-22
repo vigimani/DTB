@@ -16,19 +16,19 @@ Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice
  Backend : 
  * __Solidity__ v0.8.17
  * __Hardhat__ : 
- `* __hardhat-deploy__ `
- `* __hardhat-docgen__`
- `* __hardhat-ethernal__`
- `* __hardhat-gas-reporter__`
+    * __hardhat-deploy__ 
+    * __hardhat-docgen__
+    * __hardhat-ethernal__
+    * __hardhat-gas-reporter__
  * __OpenZeppelin__ 
- `* __Ownable.sol__`
-  `* __ERC20.sol__`
-   `* ReentrancyGuard.sol__`
+    * __Ownable.sol__
+    * __ERC20.sol__
+    * __ReentrancyGuard.sol__
 
  * Testing : 
- * __Chai__
- * __Mocha__
- * tested on arbitrum fork
+    * __Chai__
+    * __Mocha__
+    * tested on arbitrum fork
 
  
  Frontend :
