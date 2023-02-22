@@ -40,9 +40,9 @@ Développé pour le réseau Arbitrum mais deployé sur Goerli pour l'exercice
  * __Apexcharts__
 
 
-
 ## Visuals of the Dapp
 ![alt text](https://github.com/vigimani/DTB/blob/main/1.png)
+![alt text](https://github.com/vigimani/DTB/blob/main/2.png)
 
 ## Useful links
 * [Loom video presentation](https://www.loom.com/share/ca6deeadc1954c4985c00cbd6281de38)

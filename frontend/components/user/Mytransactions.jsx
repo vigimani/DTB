@@ -23,6 +23,8 @@ import {
 export default function Mytransactions() {
   const bgCard = useColorModeValue("white", "gray.600");
   const colortext = useColorModeValue("#594B7E", "white");
+  const greener = useColorModeValue("green", "green.100")
+  const reder = useColorModeValue("red", "red.100")
   const { provider, address, plpBalance, totalsupply, navcalculated } =
     useContractProvider();
 
@@ -249,7 +251,7 @@ export default function Mytransactions() {
                       <Tr key={index}>
                         <Td>{event.when}</Td>
                         <Td>deposit</Td>
-                        <Td color="red">
+                        <Td color={reder}>
                           {" "}
                           <Flex justifyContent={"flex-end"}>
                             -
@@ -264,7 +266,7 @@ export default function Mytransactions() {
                             />{" "}
                           </Flex>
                         </Td>
-                        <Td color="green">
+                        <Td color={greener}>
                           <Flex justifyContent={"flex-end"}>
                             {" "}
                             +
@@ -297,7 +299,7 @@ export default function Mytransactions() {
                         <Td>{event.when}</Td>
                         <Td>withdraw</Td>
                         {/* <Td color="red">{event.account.slice(0,5)}...{event.account.slice(38,42)}</Td> */}
-                        <Td color="green">
+                        <Td color={greener}>
                           {" "}
                           <Flex justifyContent={"flex-end"}>
                             +
@@ -315,7 +317,7 @@ export default function Mytransactions() {
                             />{" "}
                           </Flex>
                         </Td>
-                        <Td color="red">
+                        <Td color={reder}>
                           <Flex justifyContent={"flex-end"}>
                             -
                             {numberWithSpaces(
